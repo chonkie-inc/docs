@@ -1,0 +1,82 @@
+---
+title: 'Installation'
+description: 'Installing Chonkie and its various components'
+icon: 'download'
+iconType: 'solid'
+---
+
+Chonkie follows a modular approach to dependencies, keeping the base installation lightweight while allowing you to add extra features as needed.
+
+## Basic Installation
+
+For basic token and word chunking capabilities:
+
+```bash
+pip install chonkie
+```
+
+## Installation Options
+
+Chonkie provides several installation options to match your specific needs:
+
+```bash
+# Basic installation (TokenChunker, WordChunker, SentenceChunker)
+pip install chonkie
+
+# For the default semantic provider support
+pip install "chonkie[semantic]"
+
+# For OpenAI embeddings support
+pip install "chonkie[openai]"
+
+# For installing multiple features together 
+pip install "chonkie[st, model2vec]" 
+
+# For all features
+pip install "chonkie[all]"
+```
+
+## Chunker Availability
+
+The following table shows which chunkers are available with different installation options:
+
+| Chunker | Default | embeddings | 'all' |
+|---------|---------|-----------|----------|
+| TokenChunker | ✅ | ✅ |  ✅ |
+| WordChunker | ✅ | ✅ |  ✅ |
+| SentenceChunker | ✅ |  ✅ | ✅ |
+| SemanticChunker | ❌ |  ✅ | ✅ |
+| SDPMChunker | ❌ | ✅ | ✅ |
+| LateChunker | ❌ | ✅ | ✅ |
+
+Any of the embeddings availability will enable the `SemanticChunker` and `SDPMChunker`. You can use the `chonkie[semantic]` install for quick access to these features. 
+However, `LateChunker` requires the `sentence-transformers` library to be installed, and currently only supports SentenceTransformer models. You can install it with `pip install "chonkie[st]"`.
+
+## Embeddings Availability
+
+Different embedding providers are available with different installation options:
+
+| Embeddings Provider | Default | 'model2vec' | 'st' | 'openai' | 'semantic'| 'all' |
+|--------------------|---------|-----------|----------|-------|--------|---------|
+| Model2VecEmbeddings | ❌| ✅ | ❌ | ❌ | ✅ | ✅ |
+| SentenceTransformerEmbeddings | ❌ | ❌| ✅ | ❌ | ❌ | ✅|
+| OpenAIEmbeddings | ❌ | ❌ | ❌ | ✅ | ❌ | ✅|
+
+## Dependencies
+
+Here's what each installation option adds:
+
+| Installation Option | Additional Dependencies |
+|--------------------|------------------------|
+| Default | autotiktokenizer |
+| 'model2vec' | + model2vec, numpy |
+| 'st' | + sentence-transformers, numpy |
+| 'openai' | + openai, tiktoken |
+| 'semantic' | + model2vec, numpy |
+| 'all' | all above dependencies |
+
+## Important Notes
+
+- We provide separate `semantic` and `all` installs pre-packaged that might match other installation options breeding redundancy. This redundancy is intentional to provide users with the best experience and freedom to choose their preferred means.
+- The `semantic` and `all` optional installs may change in future versions, so what you download today may not be the same for tomorrow.
+- Installing either 'semantic' or 'openai' extras will enable SemanticChunker and SDPMChunker, as these chunkers can work with any embeddings provider. The difference is in which embedding providers are available for use with these chunkers.

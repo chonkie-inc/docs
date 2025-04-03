@@ -1,0 +1,142 @@
+---
+title: 'LateChunker'
+description: 'Split text into chunks based on a late-bound token count'
+icon: 'clock'
+iconType: solid
+---
+
+LateChunker is based on the paper [Late Chunking](https://arxiv.org/abs/2409.04701), which uses a long-context embedding model to first chunk such that
+the entire document is within the context window. Then, it splits appart the embeddings into chunks of a specified size, either by token chunking or sentence
+chunking. 
+
+## Installation
+
+LateChunker requires the `sentence-transformers` library to be installed, and currently only supports SentenceTransformer models. 
+You can install it with:
+
+```bash
+pip install "chonkie[st]"
+```
+
+<Info> For installation instructions, see the [Installation Guide](/getting-started/installation).</Info>
+
+## Initialization
+
+```python
+from chonkie import LateChunker
+
+chunker = LateChunker(
+    embedding_model="all-MiniLM-L6-v2",
+    mode = "sentence",
+    chunk_size=512,
+    min_sentences_per_chunk=1,
+    min_characters_per_sentence=12,
+)
+```
+
+## Parameters
+
+<ParamField
+    path="embedding_model"
+    type="str"
+    default="all-MiniLM-L6-v2"
+>
+    SentenceTransformer model to use for embedding
+</ParamField>
+
+<ParamField
+    path="mode"
+    type="str"
+    default="sentence"
+>
+    Mode to use for chunking. Can be "sentence" or "token"
+</ParamField>
+
+<ParamField
+    path="chunk_size"
+    type="int"
+    default="512"
+>
+    Maximum number of tokens per chunk
+</ParamField>
+
+<ParamField
+    path="min_sentences_per_chunk"
+    type="int"
+    default="1"
+>
+    Minimum number of sentences per chunk
+</ParamField>
+
+<ParamField
+    path="min_characters_per_sentence"
+    type="int"
+    default="12"
+>
+    Minimum number of characters per sentence
+</ParamField>
+
+<ParamField
+    path="approximate"
+    type="bool"
+    default="True"
+>
+    Whether to use approximate chunking
+</ParamField>
+
+<ParamField
+    path="delim"
+    type="list[str]"
+    default="['.', '!', '?', '\n']"
+>
+    Delimiters to use for chunking
+</ParamField>
+
+## Usage
+
+### Single Text Chunking
+
+```python
+text = """First paragraph about a specific topic.
+Second paragraph continuing the same topic.
+Third paragraph switching to a different topic.
+Fourth paragraph expanding on the new topic."""
+
+chunks = chunker(text)
+
+for chunk in chunks:
+    print(f"Chunk text: {chunk.text}")
+    print(f"Token count: {chunk.token_count}")
+    print(f"Number of sentences: {len(chunk.sentences)}")
+```
+
+### Batch Chunking
+
+```python
+texts = [
+    "First document about topic A...",
+    "Second document about topic B..."
+]
+
+batch_chunks = chunker(texts)
+
+for chunk in batch_chunks:
+    print(f"Chunk text: {chunk.text}")
+    print(f"Token count: {chunk.token_count}")
+    print(f"Number of sentences: {len(chunk.sentences)}")
+```
+
+## Return Type
+
+LateChunker returns `LateChunk` objects with optimized storage using slots:
+
+```python
+@dataclass
+class LateChunk(SentenceChunk):
+    text: str
+    start_index: int
+    end_index: int
+    token_count: int
+    sentences: List[Sentence]
+    embedding: Optional[np.ndarray]  # Sentence embedding vector
+```

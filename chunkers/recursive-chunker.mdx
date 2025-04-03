@@ -1,0 +1,139 @@
+---
+title: RecursiveChunker
+description: Recursively chunk documents into smaller chunks.
+icon: "chart-tree-map"
+iconType: "solid"
+---
+
+The RecursiveChunker is a chunker that recursively chunks documents into smaller chunks. It is a good choice for documents that are long but well structured, for example, a book or a research paper.
+
+## Installation
+
+The RecursiveChunker is included in the base installation of Chonkie. No additional dependencies are required.
+
+<Info>For installation instructions, see the [Installation Guide](/getting-started/installation).</Info>
+
+## Initialization
+
+```python
+from chonkie import RecursiveChunker, RecursiveRules
+
+chunker = RecursiveChunker(
+    tokenizer="gpt2",
+    chunk_size=512,
+    rules=RecursiveRules(), # Default rules
+    min_characters_per_chunk=12,
+)
+```
+
+## Parameters
+
+<ParamField
+    path="tokenizer"
+    type="Union[str, tokenizers.Tokenizer, tiktoken.Encoding]"
+    default="gpt2"
+>
+    Tokenizer to use. Can be a string identifier or a tokenizer instance
+</ParamField>
+
+<ParamField
+    path="chunk_size"
+    type="int"
+    default="512"
+>
+    Maximum number of tokens per chunk
+</ParamField>
+
+<ParamField
+    path="rules"
+    type="Optional[RecursiveRules]"
+    default="RecursiveRules()"
+>
+    Rules to use for chunking.
+</ParamField>
+
+<ParamField
+    path="min_characters_per_chunk"
+    type="int"
+    default="12"
+>
+    Minimum number of characters per chunk
+</ParamField>
+
+## Usage
+
+### Single Text Chunking
+
+```python
+text = """This is the first sentence. This is the second sentence. 
+And here's a third one with some additional context."""
+
+chunks = chunker.chunk(text)
+
+for chunk in chunks:
+    print(f"Chunk text: {chunk.text}")
+    print(f"Token count: {chunk.token_count}")
+```
+
+### Batch Chunking
+
+```python
+texts = [
+    "This is the first sentence. This is the second sentence. 
+    And here's a third one with some additional context.",
+    "This is the first sentence. This is the second sentence. 
+    And here's a third one with some additional context.",
+]
+
+chunks = chunker.chunk_batch(texts)
+
+for chunk in chunks:
+    print(f"Chunk text: {chunk.text}")
+    print(f"Token count: {chunk.token_count}")
+```
+
+### Using as a Callable
+
+```python
+# Single text
+chunks = chunker("This is the first sentence. This is the second sentence.")
+
+# Multiple texts
+batch_chunks = chunker(["Text 1. More text.", "Text 2. More."])
+```
+
+## Return Type
+
+The RecursiveChunker returns chunks as `RecursiveChunk` objects with additional sentence metadata:
+
+```python
+@dataclass
+class RecursiveChunk(Chunk):
+    text: str           # The chunk text
+    start_index: int    # Starting position in original text
+    end_index: int      # Ending position in original text
+    token_count: int    # Number of tokens in Chunk
+    level: int          # Level of the chunk in the recursive tree
+```
+
+
+## Additional Information
+
+The RecursiveChunker uses the `RecursiveRules` class to determine the chunking rules. The rules are a list of `RecursiveLevel` objects, which define the delimiters and whitespace rules for each level of the recursive tree.
+
+```python
+@dataclass
+class RecursiveRules:
+    rules: List[RecursiveLevel]
+
+@dataclass
+class RecursiveLevel:
+    delimiters: Union[None, str, List[str]]
+    whitespace: bool = False
+```
+
+You can pass in custom rules to the RecursiveChunker, or use the default rules. The default rules are designed to be a good starting point for most documents, but you can customize them to your needs.
+
+<Info> In `RecursiveLevel`, it is expected that only delimiters are provided, without whitespace as a delimiter.
+ If whitespace is needed as a delimiter, you can use the `whitespace` parameter in the `RecursiveLevel` class, by setting it to `True`. Though, you cannot pass delimiters in this case.
+</Info>
