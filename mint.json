@@ -9,10 +9,10 @@
   "favicon": "/favicon.png",
   "colors": {
     "primary": "#7c6f64",
-    "light": "#A86F60",
-    "dark": "#504945",
+    "light": "#faf6e3",
+    "dark": "#1a1a1a",
     "background": {
-      "dark": "#282828",
+      "dark": "#1a1a1a",
       "light": "#faf6e3"
     },
     "anchors": {
@@ -21,7 +21,7 @@
     }
   },
   "background": {
-    "style": "grid"
+    "style": "gradient"
   },
   "theme": "prism",
   "layout": "topnav",
