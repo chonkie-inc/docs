@@ -20,10 +20,6 @@
       "to": "#928374"
     }
   },
-  "background": {
-    "style": "gradient"
-  },
-  "theme": "prism",
   "layout": "topnav",
   "modeToggle": {
     "default": "dark", 
