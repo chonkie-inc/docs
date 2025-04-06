@@ -27,24 +27,22 @@
                         "description": "API key is valid and active",
                         "content": {
                             "application/json": {
-                                "schema": {},
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Token is valid!"
+                                        },
+                                        "status": {
+                                            "type": "integer",
+                                            "example": 200
+                                        }
+                                    }
+                                },
                                 "example": {
                                     "message": "Token is valid!",
                                     "status": 200
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Invalid or expired API key",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
-                                },
-                                "example": {
-                                    "message": "Token is invalid!",
-                                    "status": 401
                                 }
                             }
                         }
@@ -69,110 +67,16 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response: A list of chunk objects.",
+                        "description": "Successful Response: A list of standard chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "ChunkResponse",
+                                    "title": "TokenChunkResponse",
                                     "type": "array",
                                     "items": {
                                         "$ref": "#/components/schemas/Chunk"
                                     },
-                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Invalid or expired API key",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/v1/chunk/word": {
-            "post": {
-                "summary": "Word Chunker",
-                "description": "Chunk the given text using the Word Chunker.",
-                "operationId": "get_word_chunks_v1_chunk_word_post",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/components/schemas/WordChunkerREQ"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Successful Response: A list of chunk objects.",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "title": "ChunkResponse",
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/Chunk"
-                                    },
-                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Invalid or expired API key",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
+                                    "description": "A list containing standard chunk objects, each detailing a segment of the original text based on token count."
                                 }
                             }
                         }
@@ -197,46 +101,16 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response: A list of chunk objects.",
+                        "description": "Successful Response: A list of sentence chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "ChunkResponse",
+                                    "title": "SentenceChunkResponse",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Chunk"
+                                        "$ref": "#/components/schemas/SentenceChunkSchema"
                                     },
-                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Invalid or expired API key",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
+                                    "description": "A list containing sentence chunk objects, each detailing a segment of the original text and the sentences within it."
                                 }
                             }
                         }
@@ -261,46 +135,16 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response: A list of chunk objects.",
+                        "description": "Successful Response: A list of recursive chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "ChunkResponse",
+                                    "title": "RecursiveChunkResponse",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Chunk"
+                                        "$ref": "#/components/schemas/RecursiveChunkSchema"
                                     },
-                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Invalid or expired API key",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
+                                    "description": "A list containing recursive chunk objects, each detailing a segment of the original text and its recursion level."
                                 }
                             }
                         }
@@ -325,46 +169,16 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response: A list of chunk objects.",
+                        "description": "Successful Response: A list of semantic chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "ChunkResponse",
+                                    "title": "SemanticChunkResponse",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Chunk"
+                                        "$ref": "#/components/schemas/SemanticChunkSchema"
                                     },
-                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Invalid or expired API key",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
+                                    "description": "A list containing semantic chunk objects, detailing segments and sentences with optional embeddings."
                                 }
                             }
                         }
@@ -389,46 +203,16 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response: A list of chunk objects.",
+                        "description": "Successful Response: A list of semantic chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "ChunkResponse",
+                                    "title": "SDPMChunkResponse",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Chunk"
+                                        "$ref": "#/components/schemas/SemanticChunkSchema"
                                     },
-                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Invalid or expired API key",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
+                                    "description": "A list containing semantic chunk objects (as SDPM is a type of semantic chunking), detailing segments and sentences with optional embeddings."
                                 }
                             }
                         }
@@ -453,46 +237,16 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response: A list of chunk objects.",
+                        "description": "Successful Response: A list of late chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "title": "ChunkResponse",
+                                    "title": "LateChunkResponse",
                                     "type": "array",
                                     "items": {
-                                        "$ref": "#/components/schemas/Chunk"
+                                        "$ref": "#/components/schemas/LateChunkSchema"
                                     },
-                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Invalid or expired API key",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
-                                }
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorRES"
+                                    "description": "A list containing late chunk objects, detailing segments, sentences, and an optional chunk-level embedding."
                                 }
                             }
                         }
@@ -541,6 +295,261 @@
                     "start_index",
                     "end_index",
                     "token_count"
+                ]
+            },
+            "SentenceSchema": {
+                "title": "Sentence",
+                "description": "Represents a single sentence within a chunk.",
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "description": "The actual text content of the sentence."
+                    },
+                    "start_index": {
+                        "type": "integer",
+                        "title": "Start Index",
+                        "description": "The starting character index of the sentence within the original input text."
+                    },
+                    "end_index": {
+                        "type": "integer",
+                        "title": "End Index",
+                        "description": "The ending character index (exclusive) of the sentence within the original input text."
+                    },
+                    "token_count": {
+                        "type": "integer",
+                        "title": "Token Count",
+                        "description": "The number of tokens in this specific sentence, according to the tokenizer used."
+                    }
+                },
+                "required": [
+                    "text",
+                    "start_index",
+                    "end_index",
+                    "token_count"
+                ]
+            },
+            "SemanticSentenceSchema": {
+                "title": "SemanticSentence",
+                "description": "Represents a single sentence within a semantic chunk, potentially including an embedding.",
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "description": "The actual text content of the sentence."
+                    },
+                    "start_index": {
+                        "type": "integer",
+                        "title": "Start Index",
+                        "description": "The starting character index of the sentence within the original input text."
+                    },
+                    "end_index": {
+                        "type": "integer",
+                        "title": "End Index",
+                        "description": "The ending character index (exclusive) of the sentence within the original input text."
+                    },
+                    "token_count": {
+                        "type": "integer",
+                        "title": "Token Count",
+                        "description": "The number of tokens in this specific sentence, according to the tokenizer used."
+                    },
+                    "embedding": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "items": {
+                            "type": "number",
+                            "format": "float"
+                        },
+                        "title": "Embedding",
+                        "description": "Optional embedding vector for the sentence (array of floats or null)."
+                    }
+                },
+                "required": [
+                    "text",
+                    "start_index",
+                    "end_index",
+                    "token_count"
+                ]
+            },
+            "SentenceChunkSchema": {
+                "title": "SentenceChunk",
+                "description": "Represents a chunk of text composed of sentences.",
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "description": "The actual text content of the chunk."
+                    },
+                    "start_index": {
+                        "type": "integer",
+                        "title": "Start Index",
+                        "description": "The starting character index of the chunk within the original input text."
+                    },
+                    "end_index": {
+                        "type": "integer",
+                        "title": "End Index",
+                        "description": "The ending character index (exclusive) of the chunk within the original input text."
+                    },
+                    "token_count": {
+                        "type": "integer",
+                        "title": "Token Count",
+                        "description": "The number of tokens in this specific chunk, according to the tokenizer used."
+                    },
+                    "sentences": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SentenceSchema"
+                        },
+                        "title": "Sentences",
+                        "description": "List of sentences contained within this chunk."
+                    }
+                },
+                "required": [
+                    "text",
+                    "start_index",
+                    "end_index",
+                    "token_count",
+                    "sentences"
+                ]
+            },
+            "RecursiveChunkSchema": {
+                "title": "RecursiveChunk",
+                "description": "Represents a chunk generated by the Recursive Chunker, including its level.",
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "description": "The actual text content of the chunk."
+                    },
+                    "start_index": {
+                        "type": "integer",
+                        "title": "Start Index",
+                        "description": "The starting character index of the chunk within the original input text."
+                    },
+                    "end_index": {
+                        "type": "integer",
+                        "title": "End Index",
+                        "description": "The ending character index (exclusive) of the chunk within the original input text."
+                    },
+                    "token_count": {
+                        "type": "integer",
+                        "title": "Token Count",
+                        "description": "The number of tokens in this specific chunk, according to the tokenizer used."
+                    },
+                    "level": {
+                        "type": "integer",
+                        "title": "Level",
+                        "description": "The level of this chunk in the recursive splitting process."
+                    }
+                },
+                "required": [
+                    "text",
+                    "start_index",
+                    "end_index",
+                    "token_count",
+                    "level"
+                ]
+            },
+            "SemanticChunkSchema": {
+                "title": "SemanticChunk",
+                "description": "Represents a chunk generated by semantic chunking methods (Semantic, SDPM), containing sentences potentially with embeddings.",
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "description": "The actual text content of the chunk."
+                    },
+                    "start_index": {
+                        "type": "integer",
+                        "title": "Start Index",
+                        "description": "The starting character index of the chunk within the original input text."
+                    },
+                    "end_index": {
+                        "type": "integer",
+                        "title": "End Index",
+                        "description": "The ending character index (exclusive) of the chunk within the original input text."
+                    },
+                    "token_count": {
+                        "type": "integer",
+                        "title": "Token Count",
+                        "description": "The number of tokens in this specific chunk, according to the tokenizer used."
+                    },
+                    "sentences": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SemanticSentenceSchema"
+                        },
+                        "title": "Sentences",
+                        "description": "List of semantic sentences contained within this chunk."
+                    }
+                },
+                "required": [
+                    "text",
+                    "start_index",
+                    "end_index",
+                    "token_count",
+                    "sentences"
+                ]
+            },
+            "LateChunkSchema": {
+                "title": "LateChunk",
+                "description": "Represents a chunk generated by the Late Chunker, containing sentences and an optional chunk-level embedding.",
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "description": "The actual text content of the chunk."
+                    },
+                    "start_index": {
+                        "type": "integer",
+                        "title": "Start Index",
+                        "description": "The starting character index of the chunk within the original input text."
+                    },
+                    "end_index": {
+                        "type": "integer",
+                        "title": "End Index",
+                        "description": "The ending character index (exclusive) of the chunk within the original input text."
+                    },
+                    "token_count": {
+                        "type": "integer",
+                        "title": "Token Count",
+                        "description": "The number of tokens in this specific chunk, according to the tokenizer used."
+                    },
+                    "sentences": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/SentenceSchema"
+                        },
+                        "title": "Sentences",
+                        "description": "List of standard sentences contained within this chunk."
+                    },
+                    "embedding": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "items": {
+                            "type": "number",
+                            "format": "float"
+                        },
+                        "title": "Embedding",
+                        "description": "Optional embedding vector for the entire chunk (array of floats or null)."
+                    }
+                },
+                "required": [
+                    "text",
+                    "start_index",
+                    "end_index",
+                    "token_count",
+                    "sentences"
                 ]
             },
             "ErrorRES": {
@@ -748,12 +757,20 @@
                                 "default": {
                                     "levels": [
                                         {
-                                            "delimiters": ["\n\n","\n","\r\n"],
+                                            "delimiters": [
+                                                "\n\n",
+                                                "\n",
+                                                "\r\n"
+                                            ],
                                             "include_delim": "prev",
                                             "whitespace": false
                                         },
                                         {
-                                            "delimiters": [".","?","!"],
+                                            "delimiters": [
+                                                ".",
+                                                "?",
+                                                "!"
+                                            ],
                                             "include_delim": "prev",
                                             "whitespace": false
                                         },
