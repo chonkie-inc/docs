@@ -39,6 +39,9 @@
                         "description": "Invalid or expired API key",
                         "content": {
                             "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
+                                },
                                 "example": {
                                     "message": "Token is invalid!",
                                     "status": 401
@@ -52,7 +55,7 @@
         "/v1/chunk/token": {
             "post": {
                 "summary": "Token Chunker",
-                "description": "Chunk the given text using the Token Chunker.\n\nThe Token Chunker splits text based on a specified number of tokens, suitable for\ntokenizer-based models like GPT. It's particularly useful when you need to ensure\nchunks fit within specific token limits for LLM contexts.\n\nRequest body parameters:\n    - text (str): The input text to be chunked\n    - chunk_size (int): Maximum number of tokens per chunk\n    - chunk_overlap (int): Number of tokens to overlap between chunks\n    - model_name (str): Name of the model to use for tokenization (e.g., \"gpt-3.5-turbo\")\n\nExample:\n    ```\n    curl -X POST \\\\\n         -H \"Content-Type: application/json\" \\\\\n         -H \"Authorization: Bearer YOUR_API_KEY\" \\\\\n         -d '{\"text\": \"Your text to chunk\", \"chunk_size\": 100, \"chunk_overlap\": 10, \"model_name\": \"gpt-3.5-turbo\"}' \\\\\n         https://api.chonkie.ai/v1/chunk/token\n    ```\n\nReturns:\n    - 200: A list of chunked text segments\n    - 401: If the API key is invalid or not provided\n    - 500: If an internal error occurs during processing",
+                "description": "Chunk the given text using the Token Chunker.",
                 "operationId": "get_token_chunks_v1_chunk_token_post",
                 "requestBody": {
                     "required": true,
@@ -66,48 +69,26 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Successful Response: A list of chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "anyOf": [
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "additionalProperties": true
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/ErrorRES"
-                                        }
-                                    ],
-                                    "title": "Response Get Token Chunks V1 Chunk Token Post"
+                                    "title": "ChunkResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chunk"
+                                    },
+                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired API key",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
                                 }
                             }
                         }
@@ -121,33 +102,25 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/v1/chunk/word": {
             "post": {
-                "summary": "Get Word Chunks",
-                "description": "Chunk the given text using the Word Chunker.\n\nThe Word Chunker splits text based on word count, providing a straightforward\napproach to creating chunks of approximately equal reading length. This chunker\nis ideal for simple text splitting needs where token precision isn't required.\n\nRequest body parameters:\n    - text (str): The input text to be chunked\n    - chunk_size (int): Maximum number of words per chunk\n    - chunk_overlap (int): Number of words to overlap between chunks\n\nExample:\n    ```\n    curl -X POST \\\\\n         -H \"Content-Type: application/json\" \\\\\n         -H \"Authorization: Bearer YOUR_API_KEY\" \\\\\n         -d '{\"text\": \"Your text to chunk\", \"chunk_size\": 100, \"chunk_overlap\": 20}' \\\\\n         https://api.chonkie.ai/v1/chunk/word\n    ```\n\nReturns:\n    - 200: A list of chunked text segments\n    - 401: If the API key is invalid or not provided\n    - 500: If an internal error occurs during processing",
+                "summary": "Word Chunker",
+                "description": "Chunk the given text using the Word Chunker.",
                 "operationId": "get_word_chunks_v1_chunk_word_post",
-                "parameters": [
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "title": "Authorization"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -160,48 +133,26 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Successful Response: A list of chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "anyOf": [
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "additionalProperties": true
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/ErrorRES"
-                                        }
-                                    ],
-                                    "title": "Response Get Word Chunks V1 Chunk Word Post"
+                                    "title": "ChunkResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chunk"
+                                    },
+                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired API key",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
                                 }
                             }
                         }
@@ -215,33 +166,25 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/v1/chunk/sentence": {
             "post": {
-                "summary": "Get Sentence Chunks",
-                "description": "Chunk the given text using the Sentence Chunker.\n\nThe Sentence Chunker preserves sentence integrity by splitting text at sentence\nboundaries. This chunker is excellent for maintaining the contextual meaning of \ncontent since it doesn't break sentences in the middle.\n\nRequest body parameters:\n    - text (str): The input text to be chunked\n    - chunk_size (int): Maximum number of sentences per chunk\n    - chunk_overlap (int): Number of sentences to overlap between chunks\n\nExample:\n    ```\n    curl -X POST \\\\\n         -H \"Content-Type: application/json\" \\\\\n         -H \"Authorization: Bearer YOUR_API_KEY\" \\\\\n         -d '{\"text\": \"Your text to chunk. This is another sentence. And a third one.\", \"chunk_size\": 2, \"chunk_overlap\": 1}' \\\\\n         https://api.chonkie.ai/v1/chunk/sentence\n    ```\n\nReturns:\n    - 200: A list of chunked text segments\n    - 401: If the API key is invalid or not provided\n    - 500: If an internal error occurs during processing",
+                "summary": "Sentence Chunker",
+                "description": "Chunk the given text using the Sentence Chunker.",
                 "operationId": "get_sentence_chunks_v1_chunk_sentence_post",
-                "parameters": [
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "title": "Authorization"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -254,48 +197,26 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Successful Response: A list of chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "anyOf": [
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "additionalProperties": true
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/ErrorRES"
-                                        }
-                                    ],
-                                    "title": "Response Get Sentence Chunks V1 Chunk Sentence Post"
+                                    "title": "ChunkResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chunk"
+                                    },
+                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired API key",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
                                 }
                             }
                         }
@@ -309,33 +230,25 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/v1/chunk/recursive": {
             "post": {
-                "summary": "Get Recursive Chunks",
-                "description": "Chunk the given text using the Recursive Chunker.\n\nThe Recursive Chunker intelligently splits text by recursively dividing it based on\ndelimiters of decreasing importance (e.g., first by paragraphs, then sentences, then words).\nThis provides natural, hierarchical chunking that respects document structure.\n\nRequest body parameters:\n    - text (str): The input text to be chunked\n    - chunk_size (int): Maximum chunk size (characters or tokens)\n    - chunk_overlap (int): Number of units to overlap between chunks\n    - separators (list): Optional list of delimiter strings to use for splitting\n    - is_character_size (bool): Whether chunk_size refers to characters (true) or tokens (false)\n\nExample:\n    ```\n    curl -X POST \\\\\n         -H \"Content-Type: application/json\" \\\\\n         -H \"Authorization: Bearer YOUR_API_KEY\" \\\\\n         -d '{\"text\": \"Your text to chunk\", \"chunk_size\": 1000, \"chunk_overlap\": 100, \"is_character_size\": true}' \\\\\n         https://api.chonkie.ai/v1/chunk/recursive\n    ```\n\nReturns:\n    - 200: A list of chunked text segments\n    - 401: If the API key is invalid or not provided\n    - 500: If an internal error occurs during processing",
+                "summary": "Recursive Chunker",
+                "description": "Chunk the given text using the Recursive Chunker.",
                 "operationId": "get_recursive_chunks_v1_chunk_recursive_post",
-                "parameters": [
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "title": "Authorization"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -348,48 +261,26 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Successful Response: A list of chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "anyOf": [
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "additionalProperties": true
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/ErrorRES"
-                                        }
-                                    ],
-                                    "title": "Response Get Recursive Chunks V1 Chunk Recursive Post"
+                                    "title": "ChunkResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chunk"
+                                    },
+                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired API key",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
                                 }
                             }
                         }
@@ -403,33 +294,25 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/v1/chunk/semantic": {
             "post": {
-                "summary": "Get Semantic Chunks",
-                "description": "Chunk the given text using the Semantic Chunker.\n\nThe Semantic Chunker creates chunks based on semantic similarity and coherence,\nproducing segments that preserve conceptual integrity. This advanced chunking method\nis ideal for maintaining context and reducing information loss at chunk boundaries.\n\nRequest body parameters:\n    - text (str): The input text to be chunked\n    - chunk_size (int): Target size for each chunk\n    - chunk_overlap (int): Semantic overlap between chunks\n    - embedding_model (str): Optional embedding model name for semantic analysis\n\nExample:\n    ```\n    curl -X POST \\\\\n         -H \"Content-Type: application/json\" \\\\\n         -H \"Authorization: Bearer YOUR_API_KEY\" \\\\\n         -d '{\"text\": \"Your text to chunk\", \"chunk_size\": 500, \"chunk_overlap\": 50}' \\\\\n         https://api.chonkie.ai/v1/chunk/semantic\n    ```\n\nReturns:\n    - 200: A list of chunked text segments\n    - 401: If the API key is invalid or not provided\n    - 500: If an internal error occurs during processing",
+                "summary": "Semantic Chunker",
+                "description": "Chunk the given text using the Semantic Chunker.",
                 "operationId": "get_semantic_chunks_v1_chunk_semantic_post",
-                "parameters": [
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "title": "Authorization"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -442,48 +325,26 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Successful Response: A list of chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "anyOf": [
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "additionalProperties": true
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/ErrorRES"
-                                        }
-                                    ],
-                                    "title": "Response Get Semantic Chunks V1 Chunk Semantic Post"
+                                    "title": "ChunkResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chunk"
+                                    },
+                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired API key",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
                                 }
                             }
                         }
@@ -497,33 +358,25 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/v1/chunk/sdpm": {
             "post": {
-                "summary": "Get Sdpm Chunks",
-                "description": "Chunk the given text using the SDPM Chunker (Sentence Dependency Parse Map).\n\nThe SDPM Chunker leverages linguistic dependency parsing to create semantically coherent\nchunks that respect syntactic structures. This method maintains grammatical relationships\nwithin chunks, preserving more complex meaning than simpler chunking methods.\n\nRequest body parameters:\n    - text (str): The input text to be chunked\n    - chunk_size (int): Maximum size of each chunk\n    - chunk_overlap (int): Overlap between consecutive chunks\n    - advanced_params (dict): Optional advanced parsing parameters\n\nExample:\n    ```\n    curl -X POST \\\\\n         -H \"Content-Type: application/json\" \\\\\n         -H \"Authorization: Bearer YOUR_API_KEY\" \\\\\n         -d '{\"text\": \"Your text to chunk\", \"chunk_size\": 300, \"chunk_overlap\": 50}' \\\\\n         https://api.chonkie.ai/v1/chunk/sdpm\n    ```\n\nReturns:\n    - 200: A list of chunked text segments\n    - 401: If the API key is invalid or not provided\n    - 500: If an internal error occurs during processing",
+                "summary": "SDPM Chunker",
+                "description": "Chunk the given text using the SDPM Chunker.",
                 "operationId": "get_sdpm_chunks_v1_chunk_sdpm_post",
-                "parameters": [
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "title": "Authorization"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -536,48 +389,26 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Successful Response: A list of chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "anyOf": [
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "additionalProperties": true
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/ErrorRES"
-                                        }
-                                    ],
-                                    "title": "Response Get Sdpm Chunks V1 Chunk Sdpm Post"
+                                    "title": "ChunkResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chunk"
+                                    },
+                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired API key",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
                                 }
                             }
                         }
@@ -591,33 +422,25 @@
                                 }
                             }
                         }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
+                                }
+                            }
+                        }
                     }
                 }
             }
         },
         "/v1/chunk/late": {
             "post": {
-                "summary": "Get Late Chunks",
-                "description": "Chunk the given text using the Late Chunker.\n\nThe Late Chunker uses a long-context embedding model to first encode the entire document within the context window.\nThen, it splits apart the embeddings into chunks of a specified size, either by token chunking or sentence chunking.\n\nRequest body parameters:\n    - text (str): The input text to be chunked\n    - query (str): Optional query text to guide the chunking process\n    - chunk_size (int): Target size for each chunk\n    - chunk_overlap (int): Overlap between consecutive chunks\n\nExample:\n    ```\n    curl -X POST \\\\\n         -H \"Content-Type: application/json\" \\\\\n         -H \"Authorization: Bearer YOUR_API_KEY\" \\\\\n         -d '{\"text\": \"Your text to chunk\", \"query\": \"Optional query text\", \"chunk_size\": 300, \"chunk_overlap\": 50}' \\\\\n         https://api.chonkie.ai/v1/chunk/late\n    ```\n\nReturns:\n    - 200: A list of chunked text segments\n    - 401: If the API key is invalid or not provided\n    - 500: If an internal error occurs during processing",
+                "summary": "Late Chunker",
+                "description": "Chunk the given text using the Late Chunker.",
                 "operationId": "get_late_chunks_v1_chunk_late_post",
-                "parameters": [
-                    {
-                        "name": "authorization",
-                        "in": "header",
-                        "required": true,
-                        "schema": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "type": "null"
-                                }
-                            ],
-                            "title": "Authorization"
-                        }
-                    }
-                ],
                 "requestBody": {
                     "required": true,
                     "content": {
@@ -630,48 +453,26 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Successful Response",
+                        "description": "Successful Response: A list of chunk objects.",
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "anyOf": [
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "object",
-                                                "additionalProperties": true
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "object",
-                                                    "additionalProperties": true
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "string"
-                                            }
-                                        },
-                                        {
-                                            "type": "array",
-                                            "items": {
-                                                "type": "array",
-                                                "items": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        },
-                                        {
-                                            "$ref": "#/components/schemas/ErrorRES"
-                                        }
-                                    ],
-                                    "title": "Response Get Late Chunks V1 Chunk Late Post"
+                                    "title": "ChunkResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chunk"
+                                    },
+                                    "description": "A list containing chunk objects, each detailing a segment of the original text."
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Invalid or expired API key",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
                                 }
                             }
                         }
@@ -682,6 +483,16 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorRES"
                                 }
                             }
                         }
@@ -699,6 +510,39 @@
             }
         },
         "schemas": {
+            "Chunk": {
+                "title": "Chunk",
+                "description": "Represents a single chunk of text with metadata.",
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "description": "The actual text content of the chunk."
+                    },
+                    "start_index": {
+                        "type": "integer",
+                        "title": "Start Index",
+                        "description": "The starting character index of the chunk within the original input text."
+                    },
+                    "end_index": {
+                        "type": "integer",
+                        "title": "End Index",
+                        "description": "The ending character index (exclusive) of the chunk within the original input text."
+                    },
+                    "token_count": {
+                        "type": "integer",
+                        "title": "Token Count",
+                        "description": "The number of tokens in this specific chunk, according to the tokenizer used."
+                    }
+                },
+                "required": [
+                    "text",
+                    "start_index",
+                    "end_index",
+                    "token_count"
+                ]
+            },
             "ErrorRES": {
                 "properties": {
                     "message": {
@@ -732,96 +576,13 @@
                 "title": "HTTPValidationError"
             },
             "LateChunkerREQ": {
-                "properties": {
-                    "text": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "items": {
-                                    "type": "string"
-                                },
-                                "type": "array"
-                            }
-                        ],
-                        "title": "Text"
-                    },
-                    "embedding_model": {
-                        "type": "string",
-                        "title": "Embedding Model",
-                        "default": "sentence-transformers/all-minilm-l6-v2"
-                    },
-                    "mode": {
-                        "type": "string",
-                        "title": "Mode",
-                        "default": "sentence"
-                    },
-                    "chunk_size": {
-                        "type": "integer",
-                        "title": "Chunk Size",
-                        "default": 512
-                    },
-                    "min_sentences_per_chunk": {
-                        "type": "integer",
-                        "title": "Min Sentences Per Chunk",
-                        "default": 1
-                    },
-                    "min_characters_per_sentence": {
-                        "type": "integer",
-                        "title": "Min Characters Per Sentence",
-                        "default": 1
-                    },
-                    "approximate": {
-                        "type": "boolean",
-                        "title": "Approximate",
-                        "default": true
-                    },
-                    "delim": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "items": {
-                                    "type": "string"
-                                },
-                                "type": "array"
-                            }
-                        ],
-                        "title": "Delim",
-                        "default": [
-                            "\n",
-                            ".",
-                            "!",
-                            "?"
-                        ]
-                    },
-                    "include_delim": {
-                        "anyOf": [
-                            {
-                                "type": "string",
-                                "enum": [
-                                    "prev",
-                                    "next"
-                                ]
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Include Delim",
-                        "default": "prev"
-                    }
-                },
+                "title": "LateChunkerREQ",
+                "description": "Data to pass to the Late Chunker.",
                 "type": "object",
                 "required": [
-                    "text"
+                    "text",
+                    "args"
                 ],
-                "title": "LateChunkerREQ",
-                "description": "Late chunker request for the Chonkie API."
-            },
-            "RecursiveChunkerREQ": {
                 "properties": {
                     "text": {
                         "anyOf": [
@@ -835,119 +596,225 @@
                                 "type": "array"
                             }
                         ],
-                        "title": "Text"
+                        "title": "Text",
+                        "description": "The input text or list of texts to be chunked."
                     },
-                    "tokenizer_or_token_counter": {
-                        "type": "string",
-                        "title": "Tokenizer Or Token Counter",
-                        "default": "gpt2"
-                    },
-                    "chunk_size": {
-                        "type": "integer",
-                        "title": "Chunk Size",
-                        "default": 512
-                    },
-                    "rules": {
-                        "additionalProperties": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "items": {
+                    "args": {
+                        "type": "object",
+                        "title": "Chunker Arguments",
+                        "required": [
+                            "chunk_size"
+                        ],
+                        "properties": {
+                            "embedding_model": {
+                                "type": "string",
+                                "title": "Embedding Model",
+                                "default": "sentence-transformers/all-minilm-l6-v2"
+                            },
+                            "mode": {
+                                "type": "string",
+                                "title": "Mode",
+                                "default": "sentence"
+                            },
+                            "chunk_size": {
+                                "type": "integer",
+                                "title": "Chunk Size",
+                                "default": 512
+                            },
+                            "min_sentences_per_chunk": {
+                                "type": "integer",
+                                "title": "Min Sentences Per Chunk",
+                                "default": 1
+                            },
+                            "min_characters_per_sentence": {
+                                "type": "integer",
+                                "title": "Min Characters Per Sentence",
+                                "default": 1
+                            },
+                            "approximate": {
+                                "type": "boolean",
+                                "title": "Approximate",
+                                "default": true
+                            },
+                            "delim": {
+                                "anyOf": [
+                                    {
                                         "type": "string"
                                     },
-                                    "type": "array"
-                                },
-                                {
-                                    "additionalProperties": true,
-                                    "type": "object"
-                                },
-                                {
-                                    "items": {
-                                        "additionalProperties": true,
-                                        "type": "object"
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    }
+                                ],
+                                "title": "Delim",
+                                "default": [
+                                    "\n",
+                                    ".",
+                                    "!",
+                                    "?"
+                                ]
+                            },
+                            "include_delim": {
+                                "anyOf": [
+                                    {
+                                        "type": "string",
+                                        "enum": [
+                                            "prev",
+                                            "next"
+                                        ]
                                     },
-                                    "type": "array"
-                                }
-                            ]
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "title": "Include Delim",
+                                "default": "prev"
+                            }
                         },
-                        "type": "object",
-                        "title": "Rules",
-                        "default": {
-                            "levels": [
-                                {
-                                    "delimiters": [
-                                        "\n\n",
-                                        "\n",
-                                        "\r\n"
-                                    ],
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                },
-                                {
-                                    "delimiters": [
-                                        ".",
-                                        "?",
-                                        "!"
-                                    ],
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                },
-                                {
-                                    "delimiters": [
-                                        ",",
-                                        ";",
-                                        ":",
-                                        "...",
-                                        "-",
-                                        "(",
-                                        ")",
-                                        "[",
-                                        "]",
-                                        "{",
-                                        "}",
-                                        "<",
-                                        ">",
-                                        "|",
-                                        "~",
-                                        "`",
-                                        "'",
-                                        "\""
-                                    ],
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                },
-                                {
-                                    "include_delim": "prev",
-                                    "whitespace": true
-                                },
-                                {
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                }
-                            ]
-                        }
-                    },
-                    "min_characters_per_chunk": {
-                        "type": "integer",
-                        "title": "Min Characters Per Chunk",
-                        "default": 1
-                    },
-                    "return_type": {
-                        "type": "string",
-                        "title": "Return Type",
-                        "default": "chunks"
+                        "additionalProperties": false
                     }
-                },
+                }
+            },
+            "RecursiveChunkerREQ": {
+                "title": "RecursiveChunkerREQ",
+                "description": "Data to pass to the Recursive Character Text Splitter.",
                 "type": "object",
                 "required": [
-                    "text"
+                    "text",
+                    "args"
                 ],
-                "title": "RecursiveChunkerREQ",
-                "description": "Recursive chunker request for the Chonkie API."
+                "properties": {
+                    "text": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            }
+                        ],
+                        "title": "Text",
+                        "description": "The input text or list of texts to be chunked."
+                    },
+                    "args": {
+                        "type": "object",
+                        "title": "Chunker Arguments",
+                        "required": [
+                            "chunk_size"
+                        ],
+                        "properties": {
+                            "tokenizer_or_token_counter": {
+                                "type": "string",
+                                "title": "Tokenizer Or Token Counter",
+                                "default": "gpt2"
+                            },
+                            "chunk_size": {
+                                "type": "integer",
+                                "title": "Chunk Size",
+                                "default": 512
+                            },
+                            "rules": {
+                                "additionalProperties": {
+                                    "anyOf": [
+                                        {
+                                            "type": "string"
+                                        },
+                                        {
+                                            "items": {
+                                                "type": "string"
+                                            },
+                                            "type": "array"
+                                        },
+                                        {
+                                            "additionalProperties": true,
+                                            "type": "object"
+                                        },
+                                        {
+                                            "items": {
+                                                "additionalProperties": true,
+                                                "type": "object"
+                                            },
+                                            "type": "array"
+                                        }
+                                    ]
+                                },
+                                "type": "object",
+                                "title": "Rules",
+                                "default": {
+                                    "levels": [
+                                        {
+                                            "delimiters": ["\n\n","\n","\r\n"],
+                                            "include_delim": "prev",
+                                            "whitespace": false
+                                        },
+                                        {
+                                            "delimiters": [".","?","!"],
+                                            "include_delim": "prev",
+                                            "whitespace": false
+                                        },
+                                        {
+                                            "delimiters": [
+                                                ",",
+                                                ";",
+                                                ":",
+                                                "...",
+                                                "-",
+                                                "(",
+                                                ")",
+                                                "[",
+                                                "]",
+                                                "{",
+                                                "}",
+                                                "<",
+                                                ">",
+                                                "|",
+                                                "~",
+                                                "`",
+                                                "'",
+                                                "\""
+                                            ],
+                                            "include_delim": "prev",
+                                            "whitespace": false
+                                        },
+                                        {
+                                            "include_delim": "prev",
+                                            "whitespace": true
+                                        },
+                                        {
+                                            "include_delim": "prev",
+                                            "whitespace": false
+                                        }
+                                    ]
+                                }
+                            },
+                            "min_characters_per_chunk": {
+                                "type": "integer",
+                                "title": "Min Characters Per Chunk",
+                                "default": 1
+                            },
+                            "return_type": {
+                                "type": "string",
+                                "title": "Return Type",
+                                "default": "chunks"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
             },
             "SDPMChunkerREQ": {
+                "title": "SDPMChunkerREQ",
+                "description": "Data to pass to the SDPM Chunker.",
+                "type": "object",
+                "required": [
+                    "text",
+                    "args"
+                ],
                 "properties": {
                     "text": {
                         "anyOf": [
@@ -961,98 +828,110 @@
                                 "type": "array"
                             }
                         ],
-                        "title": "Text"
+                        "title": "Text",
+                        "description": "The input text or list of texts to be chunked."
                     },
-                    "embedding_model": {
-                        "type": "string",
-                        "title": "Embedding Model",
-                        "default": "minishlab/potion-base-8M"
-                    },
-                    "threshold": {
-                        "anyOf": [
-                            {
+                    "args": {
+                        "type": "object",
+                        "title": "Chunker Arguments",
+                        "required": [
+                            "chunk_size"
+                        ],
+                        "properties": {
+                            "embedding_model": {
                                 "type": "string",
-                                "const": "auto"
+                                "title": "Embedding Model",
+                                "default": "minishlab/potion-base-8M"
                             },
-                            {
-                                "type": "number"
+                            "threshold": {
+                                "anyOf": [
+                                    {
+                                        "type": "string",
+                                        "const": "auto"
+                                    },
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "integer"
+                                    }
+                                ],
+                                "title": "Threshold",
+                                "default": "auto"
                             },
-                            {
-                                "type": "integer"
+                            "mode": {
+                                "type": "string",
+                                "title": "Mode",
+                                "default": "window"
+                            },
+                            "chunk_size": {
+                                "type": "integer",
+                                "title": "Chunk Size",
+                                "default": 512
+                            },
+                            "similarity_window": {
+                                "type": "integer",
+                                "title": "Similarity Window",
+                                "default": 1
+                            },
+                            "min_sentences": {
+                                "type": "integer",
+                                "title": "Min Sentences",
+                                "default": 1
+                            },
+                            "min_characters_per_sentence": {
+                                "type": "integer",
+                                "title": "Min Characters Per Sentence",
+                                "default": 1
+                            },
+                            "threshold_step": {
+                                "type": "number",
+                                "title": "Threshold Step",
+                                "default": 0.01
+                            },
+                            "delim": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    }
+                                ],
+                                "title": "Delim",
+                                "default": [
+                                    "\n",
+                                    ".",
+                                    "!",
+                                    "?"
+                                ]
+                            },
+                            "skip_window": {
+                                "type": "integer",
+                                "title": "Skip Window",
+                                "default": 1
+                            },
+                            "return_type": {
+                                "type": "string",
+                                "title": "Return Type",
+                                "default": "chunks"
                             }
-                        ],
-                        "title": "Threshold",
-                        "default": "auto"
-                    },
-                    "mode": {
-                        "type": "string",
-                        "title": "Mode",
-                        "default": "window"
-                    },
-                    "chunk_size": {
-                        "type": "integer",
-                        "title": "Chunk Size",
-                        "default": 512
-                    },
-                    "similarity_window": {
-                        "type": "integer",
-                        "title": "Similarity Window",
-                        "default": 1
-                    },
-                    "min_sentences": {
-                        "type": "integer",
-                        "title": "Min Sentences",
-                        "default": 1
-                    },
-                    "min_characters_per_sentence": {
-                        "type": "integer",
-                        "title": "Min Characters Per Sentence",
-                        "default": 1
-                    },
-                    "threshold_step": {
-                        "type": "number",
-                        "title": "Threshold Step",
-                        "default": 0.01
-                    },
-                    "delim": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "items": {
-                                    "type": "string"
-                                },
-                                "type": "array"
-                            }
-                        ],
-                        "title": "Delim",
-                        "default": [
-                            "\n",
-                            ".",
-                            "!",
-                            "?"
-                        ]
-                    },
-                    "skip_window": {
-                        "type": "integer",
-                        "title": "Skip Window",
-                        "default": 1
-                    },
-                    "return_type": {
-                        "type": "string",
-                        "title": "Return Type",
-                        "default": "chunks"
+                        },
+                        "additionalProperties": false
                     }
-                },
-                "type": "object",
-                "required": [
-                    "text"
-                ],
-                "title": "SDPMChunkerREQ",
-                "description": "SDPM chunker request for the Chonkie API."
+                }
             },
             "SemanticChunkerREQ": {
+                "title": "SemanticChunkerREQ",
+                "description": "Data to pass to the Semantic Chunker.",
+                "type": "object",
+                "required": [
+                    "text",
+                    "args"
+                ],
                 "properties": {
                     "text": {
                         "anyOf": [
@@ -1066,109 +945,121 @@
                                 "type": "array"
                             }
                         ],
-                        "title": "Text"
+                        "title": "Text",
+                        "description": "The input text or list of texts to be chunked."
                     },
-                    "embedding_model": {
-                        "type": "string",
-                        "title": "Embedding Model",
-                        "default": "minishlab/potion-base-8M"
-                    },
-                    "threshold": {
-                        "anyOf": [
-                            {
-                                "type": "string",
-                                "const": "auto"
-                            },
-                            {
-                                "type": "number"
-                            },
-                            {
-                                "type": "integer"
-                            }
+                    "args": {
+                        "type": "object",
+                        "title": "Chunker Arguments",
+                        "required": [
+                            "chunk_size"
                         ],
-                        "title": "Threshold",
-                        "default": "auto"
-                    },
-                    "chunk_size": {
-                        "type": "integer",
-                        "title": "Chunk Size",
-                        "default": 512
-                    },
-                    "similarity_window": {
-                        "type": "integer",
-                        "title": "Similarity Window",
-                        "default": 1
-                    },
-                    "min_sentences": {
-                        "type": "integer",
-                        "title": "Min Sentences",
-                        "default": 1
-                    },
-                    "min_chunk_size": {
-                        "type": "integer",
-                        "title": "Min Chunk Size",
-                        "default": 2
-                    },
-                    "min_characters_per_sentence": {
-                        "type": "integer",
-                        "title": "Min Characters Per Sentence",
-                        "default": 1
-                    },
-                    "threshold_step": {
-                        "type": "number",
-                        "title": "Threshold Step",
-                        "default": 0.01
-                    },
-                    "delim": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "items": {
-                                    "type": "string"
-                                },
-                                "type": "array"
-                            }
-                        ],
-                        "title": "Delim",
-                        "default": [
-                            "\n",
-                            ".",
-                            "!",
-                            "?"
-                        ]
-                    },
-                    "include_delim": {
-                        "anyOf": [
-                            {
+                        "properties": {
+                            "embedding_model": {
                                 "type": "string",
-                                "enum": [
-                                    "prev",
-                                    "next"
+                                "title": "Embedding Model",
+                                "default": "minishlab/potion-base-8M"
+                            },
+                            "threshold": {
+                                "anyOf": [
+                                    {
+                                        "type": "string",
+                                        "const": "auto"
+                                    },
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "integer"
+                                    }
+                                ],
+                                "title": "Threshold",
+                                "default": "auto"
+                            },
+                            "chunk_size": {
+                                "type": "integer",
+                                "title": "Chunk Size",
+                                "default": 512
+                            },
+                            "similarity_window": {
+                                "type": "integer",
+                                "title": "Similarity Window",
+                                "default": 1
+                            },
+                            "min_sentences": {
+                                "type": "integer",
+                                "title": "Min Sentences",
+                                "default": 1
+                            },
+                            "min_chunk_size": {
+                                "type": "integer",
+                                "title": "Min Chunk Size",
+                                "default": 2
+                            },
+                            "min_characters_per_sentence": {
+                                "type": "integer",
+                                "title": "Min Characters Per Sentence",
+                                "default": 1
+                            },
+                            "threshold_step": {
+                                "type": "number",
+                                "title": "Threshold Step",
+                                "default": 0.01
+                            },
+                            "delim": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    }
+                                ],
+                                "title": "Delim",
+                                "default": [
+                                    "\n",
+                                    ".",
+                                    "!",
+                                    "?"
                                 ]
                             },
-                            {
-                                "type": "null"
+                            "include_delim": {
+                                "anyOf": [
+                                    {
+                                        "type": "string",
+                                        "enum": [
+                                            "prev",
+                                            "next"
+                                        ]
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "title": "Include Delim",
+                                "default": "prev"
+                            },
+                            "return_type": {
+                                "type": "string",
+                                "title": "Return Type",
+                                "default": "chunks"
                             }
-                        ],
-                        "title": "Include Delim",
-                        "default": "prev"
-                    },
-                    "return_type": {
-                        "type": "string",
-                        "title": "Return Type",
-                        "default": "chunks"
+                        },
+                        "additionalProperties": false
                     }
-                },
-                "type": "object",
-                "required": [
-                    "text"
-                ],
-                "title": "SemanticChunkerREQ",
-                "description": "Semantic chunker request for the Chonkie API."
+                }
             },
             "SentenceChunkerREQ": {
+                "title": "SentenceChunkerREQ",
+                "description": "Data to pass to the Sentence Chunker.",
+                "type": "object",
+                "required": [
+                    "text",
+                    "args"
+                ],
                 "properties": {
                     "text": {
                         "anyOf": [
@@ -1182,88 +1073,100 @@
                                 "type": "array"
                             }
                         ],
-                        "title": "Text"
+                        "title": "Text",
+                        "description": "The input text or list of texts to be chunked."
                     },
-                    "tokenizer_or_token_counter": {
-                        "type": "string",
-                        "title": "Tokenizer Or Token Counter",
-                        "default": "gpt2"
-                    },
-                    "chunk_size": {
-                        "type": "integer",
-                        "title": "Chunk Size",
-                        "default": 512
-                    },
-                    "chunk_overlap": {
-                        "type": "integer",
-                        "title": "Chunk Overlap",
-                        "default": 0
-                    },
-                    "min_sentences_per_chunk": {
-                        "type": "integer",
-                        "title": "Min Sentences Per Chunk",
-                        "default": 1
-                    },
-                    "min_characters_per_sentence": {
-                        "type": "integer",
-                        "title": "Min Characters Per Sentence",
-                        "default": 1
-                    },
-                    "approximate": {
-                        "type": "boolean",
-                        "title": "Approximate",
-                        "default": true
-                    },
-                    "delim": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "items": {
-                                    "type": "string"
-                                },
-                                "type": "array"
-                            }
+                    "args": {
+                        "type": "object",
+                        "title": "Chunker Arguments",
+                        "required": [
+                            "chunk_size"
                         ],
-                        "title": "Delim",
-                        "default": [
-                            "\n",
-                            ".",
-                            "!",
-                            "?"
-                        ]
-                    },
-                    "include_delim": {
-                        "anyOf": [
-                            {
+                        "properties": {
+                            "tokenizer_or_token_counter": {
                                 "type": "string",
-                                "enum": [
-                                    "prev",
-                                    "next"
+                                "title": "Tokenizer Or Token Counter",
+                                "default": "gpt2"
+                            },
+                            "chunk_size": {
+                                "type": "integer",
+                                "title": "Chunk Size",
+                                "default": 512
+                            },
+                            "chunk_overlap": {
+                                "type": "integer",
+                                "title": "Chunk Overlap",
+                                "default": 0
+                            },
+                            "min_sentences_per_chunk": {
+                                "type": "integer",
+                                "title": "Min Sentences Per Chunk",
+                                "default": 1
+                            },
+                            "min_characters_per_sentence": {
+                                "type": "integer",
+                                "title": "Min Characters Per Sentence",
+                                "default": 1
+                            },
+                            "approximate": {
+                                "type": "boolean",
+                                "title": "Approximate",
+                                "default": true
+                            },
+                            "delim": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "items": {
+                                            "type": "string"
+                                        },
+                                        "type": "array"
+                                    }
+                                ],
+                                "title": "Delim",
+                                "default": [
+                                    "\n",
+                                    ".",
+                                    "!",
+                                    "?"
                                 ]
                             },
-                            {
-                                "type": "null"
+                            "include_delim": {
+                                "anyOf": [
+                                    {
+                                        "type": "string",
+                                        "enum": [
+                                            "prev",
+                                            "next"
+                                        ]
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "title": "Include Delim",
+                                "default": "prev"
+                            },
+                            "return_type": {
+                                "type": "string",
+                                "title": "Return Type",
+                                "default": "chunks"
                             }
-                        ],
-                        "title": "Include Delim",
-                        "default": "prev"
-                    },
-                    "return_type": {
-                        "type": "string",
-                        "title": "Return Type",
-                        "default": "chunks"
+                        },
+                        "additionalProperties": false
                     }
-                },
-                "type": "object",
-                "required": [
-                    "text"
-                ],
-                "title": "SentenceChunkerREQ",
-                "description": "Sentence chunker request for the Chonkie API."
+                }
             },
             "TokenChunkerREQ": {
+                "title": "TokenChunkerREQ",
+                "description": "Data to pass to the Token Chunker.",
+                "type": "object",
+                "required": [
+                    "text",
+                    "args"
+                ],
                 "properties": {
                     "text": {
                         "anyOf": [
@@ -1277,35 +1180,43 @@
                                 "type": "array"
                             }
                         ],
-                        "title": "Text"
+                        "title": "Text",
+                        "description": "The input text or list of texts to be chunked."
                     },
-                    "tokenizer": {
-                        "type": "string",
-                        "title": "Tokenizer",
-                        "default": "gpt2"
-                    },
-                    "chunk_size": {
-                        "type": "integer",
-                        "title": "Chunk Size",
-                        "default": 512
-                    },
-                    "chunk_overlap": {
-                        "type": "integer",
-                        "title": "Chunk Overlap",
-                        "default": 0
-                    },
-                    "return_type": {
-                        "type": "string",
-                        "title": "Return Type",
-                        "default": "chunks"
+                    "args": {
+                        "type": "object",
+                        "title": "Chunker Arguments",
+                        "required": [
+                            "tokenizer",
+                            "chunk_size",
+                            "chunk_overlap",
+                            "return_type"
+                        ],
+                        "properties": {
+                            "tokenizer": {
+                                "type": "string",
+                                "title": "Tokenizer",
+                                "default": "gpt2"
+                            },
+                            "chunk_size": {
+                                "type": "integer",
+                                "title": "Chunk Size",
+                                "default": 512
+                            },
+                            "chunk_overlap": {
+                                "type": "integer",
+                                "title": "Chunk Overlap",
+                                "default": 0
+                            },
+                            "return_type": {
+                                "type": "string",
+                                "title": "Return Type",
+                                "default": "chunks"
+                            }
+                        },
+                        "additionalProperties": false
                     }
-                },
-                "type": "object",
-                "required": [
-                    "text"
-                ],
-                "title": "TokenChunkerREQ",
-                "description": "Token chunker request for the Chonkie API."
+                }
             },
             "ValidationError": {
                 "properties": {
@@ -1341,6 +1252,13 @@
                 "title": "ValidationError"
             },
             "WordChunkerREQ": {
+                "title": "WordChunkerREQ",
+                "description": "Data to pass to the Word Chunker.",
+                "type": "object",
+                "required": [
+                    "text",
+                    "args"
+                ],
                 "properties": {
                     "text": {
                         "anyOf": [
@@ -1354,35 +1272,42 @@
                                 "type": "array"
                             }
                         ],
-                        "title": "Text"
+                        "title": "Text",
+                        "description": "The input text or list of texts to be chunked."
                     },
-                    "tokenizer_or_token_counter": {
-                        "type": "string",
-                        "title": "Tokenizer Or Token Counter",
-                        "default": "gpt2"
-                    },
-                    "chunk_size": {
-                        "type": "integer",
-                        "title": "Chunk Size",
-                        "default": 512
-                    },
-                    "chunk_overlap": {
-                        "type": "integer",
-                        "title": "Chunk Overlap",
-                        "default": 0
-                    },
-                    "return_type": {
-                        "type": "string",
-                        "title": "Return Type",
-                        "default": "chunks"
+                    "args": {
+                        "type": "object",
+                        "title": "Chunker Arguments",
+                        "required": [
+                            "chunk_size",
+                            "chunk_overlap",
+                            "return_type"
+                        ],
+                        "properties": {
+                            "tokenizer_or_token_counter": {
+                                "type": "string",
+                                "title": "Tokenizer Or Token Counter",
+                                "default": "gpt2"
+                            },
+                            "chunk_size": {
+                                "type": "integer",
+                                "title": "Chunk Size",
+                                "default": 512
+                            },
+                            "chunk_overlap": {
+                                "type": "integer",
+                                "title": "Chunk Overlap",
+                                "default": 0
+                            },
+                            "return_type": {
+                                "type": "string",
+                                "title": "Return Type",
+                                "default": "chunks"
+                            }
+                        },
+                        "additionalProperties": false
                     }
-                },
-                "type": "object",
-                "required": [
-                    "text"
-                ],
-                "title": "WordChunkerREQ",
-                "description": "Word chunker request for the Chonkie API."
+                }
             }
         }
     }
