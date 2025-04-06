@@ -18,13 +18,6 @@ outlined in the [concepts](/getting-started/concepts) page.
     Splits text into fixed-size token chunks. Best for maintaining consistent chunk sizes and working with token-based models.
   </Card>
   <Card
-    title="WordChunker"
-    icon="font"
-    href="/chunkers/word-chunker"
-  >
-    Splits text while preserving word boundaries. Ideal when you need human-readable chunks without breaking words.
-  </Card>
-  <Card
     title="SentenceChunker"
     icon="align-left"
     href="/chunkers/sentence-chunker"
@@ -65,14 +58,14 @@ outlined in the [concepts](/getting-started/concepts) page.
 
 Different chunkers are available depending on your installation:
 
-| Chunker | Default | embeddings | 'all' |
-|---------|---------|-----------|----------|
-| TokenChunker | ✅ | ✅ |  ✅ |
-| WordChunker | ✅ | ✅ |  ✅ |
-| SentenceChunker | ✅ |  ✅ | ✅ |
-| SemanticChunker | ❌ |  ✅ | ✅ |
-| SDPMChunker | ❌ | ✅ | ✅ |
-| LateChunker | ❌ | ✅ | ✅ |
+| Chunker         | Default | embeddings | 'all' | Chonkie Cloud |
+|-----------------|:-------:|:----------:|:-----:|:-------------:|
+| TokenChunker    | ✅      | ✅         | ✅    | ✅            |
+| RecursiveChunker| ✅      | ✅         | ✅    | ✅            |
+| SentenceChunker | ✅      | ✅         | ✅    | ✅            |
+| SemanticChunker | ❌      | ✅         | ✅    | ✅            |
+| SDPMChunker     | ❌      | ✅         | ✅    | ✅            |
+| LateChunker     | ❌      | ✅         | ✅    | ✅            |
 
 ## Common Interface
 
