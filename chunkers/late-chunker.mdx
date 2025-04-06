@@ -30,7 +30,7 @@ chunker = LateChunker(
     mode = "sentence",
     chunk_size=512,
     min_sentences_per_chunk=1,
-    min_characters_per_sentence=12,
+    min_characters_per_chunk=24,
 )
 ```
 
@@ -61,9 +61,9 @@ chunker = LateChunker(
 </ParamField>
 
 <ParamField
-    path="min_characters_per_sentence"
+    path="min_characters_per_chunk"
     type="int"
-    default="12"
+    default="24"
 >
     Minimum number of characters per sentence
 </ParamField>

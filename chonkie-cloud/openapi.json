@@ -653,7 +653,7 @@
                     "min_characters_per_chunk": {
                         "type": "integer",
                         "title": "Min Characters Per Sentence",
-                        "default": 1
+                        "default": 24
                     }
                 },
                 "additionalProperties": false
