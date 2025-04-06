@@ -540,8 +540,7 @@
                 "description": "Data to pass to the Late Chunker.",
                 "type": "object",
                 "required": [
-                    "text",
-                    "chunk_size"
+                    "text"
                 ],
                 "properties": {
                     "text": {
@@ -633,8 +632,7 @@
                 "description": "Data to pass to the Recursive Character Text Splitter.",
                 "type": "object",
                 "required": [
-                    "text",
-                    "chunk_size"
+                    "text"
                 ],
                 "properties": {
                     "text": {
@@ -762,8 +760,7 @@
                 "description": "Data to pass to the SDPM Chunker.",
                 "type": "object",
                 "required": [
-                    "text",
-                    "chunk_size"
+                    "text"
                 ],
                 "properties": {
                     "text": {
@@ -870,8 +867,7 @@
                 "description": "Data to pass to the Semantic Chunker.",
                 "type": "object",
                 "required": [
-                    "text",
-                    "chunk_size"
+                    "text"
                 ],
                 "properties": {
                     "text": {
@@ -989,8 +985,7 @@
                 "description": "Data to pass to the Sentence Chunker.",
                 "type": "object",
                 "required": [
-                    "text",
-                    "chunk_size"
+                    "text"
                 ],
                 "properties": {
                     "text": {
@@ -1087,11 +1082,7 @@
                 "description": "Data to pass to the Token Chunker.",
                 "type": "object",
                 "required": [
-                    "text",
-                    "tokenizer",
-                    "chunk_size",
-                    "chunk_overlap",
-                    "return_type"
+                    "text"
                 ],
                 "properties": {
                     "text": {
@@ -1165,10 +1156,7 @@
                 "description": "Data to pass to the Word Chunker.",
                 "type": "object",
                 "required": [
-                    "text",
-                    "chunk_size",
-                    "chunk_overlap",
-                    "return_type"
+                    "text"
                 ],
                 "properties": {
                     "text": {
