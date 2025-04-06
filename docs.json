@@ -1,0 +1,123 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Chonkie",
+  "colors": {
+    "primary": "#1a1a1a",
+    "light": "#faf6e3",
+    "dark": "#77c775"
+  },
+  "favicon": "/favicon.png",
+  "navigation": {
+    "anchors": [
+      {
+        "anchor": "Documentation",
+        "icon": "book",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "getting-started/introduction",
+              "getting-started/installation",
+              "getting-started/concepts"
+            ]
+          },
+          {
+            "group": "Chunkers",
+            "pages": [
+              "chunkers/overview",
+              "chunkers/token-chunker",
+              "chunkers/sentence-chunker",
+              "chunkers/recursive-chunker",
+              "chunkers/semantic-chunker",
+              "chunkers/sdpm-chunker",
+              "chunkers/late-chunker"
+            ]
+          },
+          {
+            "group": "Embeddings",
+            "pages": [
+              "embeddings/overview",
+              "embeddings/auto-embeddings",
+              "embeddings/sentence-transformer-embeddings",
+              "embeddings/openai-embeddings",
+              "embeddings/model2vec-embeddings",
+              "embeddings/custom-embeddings"
+            ]
+          },
+          {
+            "group": "Chonkie Cloud",
+            "openapi": "/chonkie-cloud/openapi.json"
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Discord",
+          "href": "https://discord.gg/Q6zkP8w6ur",
+          "icon": "discord"
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://blog.chonkie.ai/",
+          "icon": "newspaper"
+        }
+      ]
+    }
+  },
+  "styling": {
+    "codeblocks": "system"
+  },
+  "logo": {
+    "light": "/logo/chonkie_logo_horizontal_large.png",
+    "dark": "/logo/chonkie_logo_horizontal_large.png"
+  },
+  "appearance": {
+    "default": "dark",
+    "strict": false
+  },
+  "background": {
+    "color": {
+      "light": "#faf6e3",
+      "dark": "#1a1a1a"
+    }
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Chonkie Cloud",
+        "href": "https://cloud.chonkie.ai"
+      }
+    ],
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/chonkie-inc/chonkie"
+    }
+  },
+  "seo": {
+    "metatags": {
+      "og:site_map": "Chonkie Documentation",
+      "og:title": "Chonkie Documentation",
+      "og:description": "🦛 CHONK your text with Chonkie✨ - A no nonsense text chunking library for RAGs",
+      "og:url": "https://docs.chonkie.ai",
+      "og:image": "/images/chonkie_logo_white_bg.png",
+      "og:logo": "/logo/chonkie_logo_horizontal_large.png",
+      "article:publisher": "https://github.com/bhavnicksm",
+      "twitter:title": "Chonkie Documentation",
+      "twitter:description": "🦛 CHONK your text with Chonkie✨ - A no nonsense text chunking library for RAGS",
+      "twitter:site": "https://docs.chonkie.ai",
+      "twitter:image": "/images/chonkie_logo_white_bg.png"
+    },
+    "indexing": "navigable"
+  },
+  "footer": {
+    "socials": {
+      "website": "https://chonkie.ai/",
+      "github": "https://github.com/chonkie-inc/chonkie",
+      "x": "https://x.com/ChonkieAI",
+      "discord": "https://discord.com/invite/Q6zkP8w6ur"
+    }
+  }
+}
