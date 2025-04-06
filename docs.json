@@ -19,7 +19,8 @@
             "pages": [
               "getting-started/introduction",
               "getting-started/installation",
-              "getting-started/concepts"
+              "getting-started/concepts",
+              "chonkie-cloud/overview"
             ]
           },
           {
@@ -47,7 +48,10 @@
           },
           {
             "group": "Chonkie Cloud",
-            "openapi": "/chonkie-cloud/openapi.json"
+            "openapi": {
+              "source": "chonkie-cloud/openapi.json",
+              "directory": "chonkie-cloud"
+            }
           }
         ]
       }
