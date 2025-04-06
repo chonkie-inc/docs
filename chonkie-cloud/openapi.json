@@ -289,13 +289,7 @@
                         "title": "Token Count",
                         "description": "The number of tokens in this specific chunk, according to the tokenizer used."
                     }
-                },
-                "required": [
-                    "text",
-                    "start_index",
-                    "end_index",
-                    "token_count"
-                ]
+                }
             },
             "SentenceSchema": {
                 "title": "Sentence",
@@ -322,13 +316,7 @@
                         "title": "Token Count",
                         "description": "The number of tokens in this specific sentence, according to the tokenizer used."
                     }
-                },
-                "required": [
-                    "text",
-                    "start_index",
-                    "end_index",
-                    "token_count"
-                ]
+                }
             },
             "SemanticSentenceSchema": {
                 "title": "SemanticSentence",
@@ -367,13 +355,7 @@
                         "title": "Embedding",
                         "description": "Optional embedding vector for the sentence (array of floats or null)."
                     }
-                },
-                "required": [
-                    "text",
-                    "start_index",
-                    "end_index",
-                    "token_count"
-                ]
+                }
             },
             "SentenceChunkSchema": {
                 "title": "SentenceChunk",
@@ -408,14 +390,7 @@
                         "title": "Sentences",
                         "description": "List of sentences contained within this chunk."
                     }
-                },
-                "required": [
-                    "text",
-                    "start_index",
-                    "end_index",
-                    "token_count",
-                    "sentences"
-                ]
+                }
             },
             "RecursiveChunkSchema": {
                 "title": "RecursiveChunk",
@@ -447,14 +422,7 @@
                         "title": "Level",
                         "description": "The level of this chunk in the recursive splitting process."
                     }
-                },
-                "required": [
-                    "text",
-                    "start_index",
-                    "end_index",
-                    "token_count",
-                    "level"
-                ]
+                }
             },
             "SemanticChunkSchema": {
                 "title": "SemanticChunk",
@@ -489,14 +457,7 @@
                         "title": "Sentences",
                         "description": "List of semantic sentences contained within this chunk."
                     }
-                },
-                "required": [
-                    "text",
-                    "start_index",
-                    "end_index",
-                    "token_count",
-                    "sentences"
-                ]
+                }
             },
             "LateChunkSchema": {
                 "title": "LateChunk",
@@ -543,14 +504,7 @@
                         "title": "Embedding",
                         "description": "Optional embedding vector for the entire chunk (array of floats or null)."
                     }
-                },
-                "required": [
-                    "text",
-                    "start_index",
-                    "end_index",
-                    "token_count",
-                    "sentences"
-                ]
+                }
             },
             "ErrorRES": {
                 "properties": {
@@ -565,9 +519,6 @@
                     }
                 },
                 "type": "object",
-                "required": [
-                    "message"
-                ],
                 "title": "ErrorRES",
                 "description": "Error response for the Chonkie API."
             },
@@ -590,7 +541,7 @@
                 "type": "object",
                 "required": [
                     "text",
-                    "args"
+                    "chunk_size"
                 ],
                 "properties": {
                     "text": {
@@ -608,83 +559,74 @@
                         "title": "Text",
                         "description": "The input text or list of texts to be chunked."
                     },
-                    "args": {
-                        "type": "object",
-                        "title": "Chunker Arguments",
-                        "required": [
-                            "chunk_size"
+                    "embedding_model": {
+                        "type": "string",
+                        "title": "Embedding Model",
+                        "default": "sentence-transformers/all-minilm-l6-v2"
+                    },
+                    "mode": {
+                        "type": "string",
+                        "title": "Mode",
+                        "default": "sentence"
+                    },
+                    "chunk_size": {
+                        "type": "integer",
+                        "title": "Chunk Size",
+                        "default": 512
+                    },
+                    "min_sentences_per_chunk": {
+                        "type": "integer",
+                        "title": "Min Sentences Per Chunk",
+                        "default": 1
+                    },
+                    "min_characters_per_sentence": {
+                        "type": "integer",
+                        "title": "Min Characters Per Sentence",
+                        "default": 1
+                    },
+                    "approximate": {
+                        "type": "boolean",
+                        "title": "Approximate",
+                        "default": true
+                    },
+                    "delim": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            }
                         ],
-                        "properties": {
-                            "embedding_model": {
+                        "title": "Delim",
+                        "default": [
+                            "\n",
+                            ".",
+                            "!",
+                            "?"
+                        ]
+                    },
+                    "include_delim": {
+                        "anyOf": [
+                            {
                                 "type": "string",
-                                "title": "Embedding Model",
-                                "default": "sentence-transformers/all-minilm-l6-v2"
-                            },
-                            "mode": {
-                                "type": "string",
-                                "title": "Mode",
-                                "default": "sentence"
-                            },
-                            "chunk_size": {
-                                "type": "integer",
-                                "title": "Chunk Size",
-                                "default": 512
-                            },
-                            "min_sentences_per_chunk": {
-                                "type": "integer",
-                                "title": "Min Sentences Per Chunk",
-                                "default": 1
-                            },
-                            "min_characters_per_sentence": {
-                                "type": "integer",
-                                "title": "Min Characters Per Sentence",
-                                "default": 1
-                            },
-                            "approximate": {
-                                "type": "boolean",
-                                "title": "Approximate",
-                                "default": true
-                            },
-                            "delim": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "type": "array"
-                                    }
-                                ],
-                                "title": "Delim",
-                                "default": [
-                                    "\n",
-                                    ".",
-                                    "!",
-                                    "?"
+                                "enum": [
+                                    "prev",
+                                    "next"
                                 ]
                             },
-                            "include_delim": {
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "enum": [
-                                            "prev",
-                                            "next"
-                                        ]
-                                    },
-                                    {
-                                        "type": "null"
-                                    }
-                                ],
-                                "title": "Include Delim",
-                                "default": "prev"
+                            {
+                                "type": "null"
                             }
-                        },
-                        "additionalProperties": false
+                        ],
+                        "title": "Include Delim",
+                        "default": "prev"
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "RecursiveChunkerREQ": {
                 "title": "RecursiveChunkerREQ",
@@ -692,7 +634,7 @@
                 "type": "object",
                 "required": [
                     "text",
-                    "args"
+                    "chunk_size"
                 ],
                 "properties": {
                     "text": {
@@ -710,119 +652,110 @@
                         "title": "Text",
                         "description": "The input text or list of texts to be chunked."
                     },
-                    "args": {
-                        "type": "object",
-                        "title": "Chunker Arguments",
-                        "required": [
-                            "chunk_size"
-                        ],
-                        "properties": {
-                            "tokenizer_or_token_counter": {
-                                "type": "string",
-                                "title": "Tokenizer Or Token Counter",
-                                "default": "gpt2"
-                            },
-                            "chunk_size": {
-                                "type": "integer",
-                                "title": "Chunk Size",
-                                "default": 512
-                            },
-                            "rules": {
-                                "additionalProperties": {
-                                    "anyOf": [
-                                        {
-                                            "type": "string"
-                                        },
-                                        {
-                                            "items": {
-                                                "type": "string"
-                                            },
-                                            "type": "array"
-                                        },
-                                        {
-                                            "additionalProperties": true,
-                                            "type": "object"
-                                        },
-                                        {
-                                            "items": {
-                                                "additionalProperties": true,
-                                                "type": "object"
-                                            },
-                                            "type": "array"
-                                        }
-                                    ]
+                    "tokenizer_or_token_counter": {
+                        "type": "string",
+                        "title": "Tokenizer Or Token Counter",
+                        "default": "gpt2"
+                    },
+                    "chunk_size": {
+                        "type": "integer",
+                        "title": "Chunk Size",
+                        "default": 512
+                    },
+                    "rules": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
                                 },
-                                "type": "object",
-                                "title": "Rules",
-                                "default": {
-                                    "levels": [
-                                        {
-                                            "delimiters": [
-                                                "\n\n",
-                                                "\n",
-                                                "\r\n"
-                                            ],
-                                            "include_delim": "prev",
-                                            "whitespace": false
-                                        },
-                                        {
-                                            "delimiters": [
-                                                ".",
-                                                "?",
-                                                "!"
-                                            ],
-                                            "include_delim": "prev",
-                                            "whitespace": false
-                                        },
-                                        {
-                                            "delimiters": [
-                                                ",",
-                                                ";",
-                                                ":",
-                                                "...",
-                                                "-",
-                                                "(",
-                                                ")",
-                                                "[",
-                                                "]",
-                                                "{",
-                                                "}",
-                                                "<",
-                                                ">",
-                                                "|",
-                                                "~",
-                                                "`",
-                                                "'",
-                                                "\""
-                                            ],
-                                            "include_delim": "prev",
-                                            "whitespace": false
-                                        },
-                                        {
-                                            "include_delim": "prev",
-                                            "whitespace": true
-                                        },
-                                        {
-                                            "include_delim": "prev",
-                                            "whitespace": false
-                                        }
-                                    ]
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                {
+                                    "items": {
+                                        "additionalProperties": true,
+                                        "type": "object"
+                                    },
+                                    "type": "array"
                                 }
-                            },
-                            "min_characters_per_chunk": {
-                                "type": "integer",
-                                "title": "Min Characters Per Chunk",
-                                "default": 1
-                            },
-                            "return_type": {
-                                "type": "string",
-                                "title": "Return Type",
-                                "default": "chunks"
-                            }
+                            ]
                         },
-                        "additionalProperties": false
+                        "type": "object",
+                        "title": "Rules",
+                        "default": {
+                            "levels": [
+                                {
+                                    "delimiters": [
+                                        "\n\n",
+                                        "\n",
+                                        "\r\n"
+                                    ],
+                                    "include_delim": "prev",
+                                    "whitespace": false
+                                },
+                                {
+                                    "delimiters": [
+                                        ".",
+                                        "?",
+                                        "!"
+                                    ],
+                                    "include_delim": "prev",
+                                    "whitespace": false
+                                },
+                                {
+                                    "delimiters": [
+                                        ",",
+                                        ";",
+                                        ":",
+                                        "...",
+                                        "-",
+                                        "(",
+                                        ")",
+                                        "[",
+                                        "]",
+                                        "{",
+                                        "}",
+                                        "<",
+                                        ">",
+                                        "|",
+                                        "~",
+                                        "`",
+                                        "'",
+                                        "\""
+                                    ],
+                                    "include_delim": "prev",
+                                    "whitespace": false
+                                },
+                                {
+                                    "include_delim": "prev",
+                                    "whitespace": true
+                                },
+                                {
+                                    "include_delim": "prev",
+                                    "whitespace": false
+                                }
+                            ]
+                        }
+                    },
+                    "min_characters_per_chunk": {
+                        "type": "integer",
+                        "title": "Min Characters Per Chunk",
+                        "default": 1
+                    },
+                    "return_type": {
+                        "type": "string",
+                        "title": "Return Type",
+                        "default": "chunks"
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "SDPMChunkerREQ": {
                 "title": "SDPMChunkerREQ",
@@ -830,7 +763,7 @@
                 "type": "object",
                 "required": [
                     "text",
-                    "args"
+                    "chunk_size"
                 ],
                 "properties": {
                     "text": {
@@ -848,98 +781,89 @@
                         "title": "Text",
                         "description": "The input text or list of texts to be chunked."
                     },
-                    "args": {
-                        "type": "object",
-                        "title": "Chunker Arguments",
-                        "required": [
-                            "chunk_size"
-                        ],
-                        "properties": {
-                            "embedding_model": {
+                    "embedding_model": {
+                        "type": "string",
+                        "title": "Embedding Model",
+                        "default": "minishlab/potion-base-8M"
+                    },
+                    "threshold": {
+                        "anyOf": [
+                            {
                                 "type": "string",
-                                "title": "Embedding Model",
-                                "default": "minishlab/potion-base-8M"
+                                "const": "auto"
                             },
-                            "threshold": {
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "const": "auto"
-                                    },
-                                    {
-                                        "type": "number"
-                                    },
-                                    {
-                                        "type": "integer"
-                                    }
-                                ],
-                                "title": "Threshold",
-                                "default": "auto"
+                            {
+                                "type": "number"
                             },
-                            "mode": {
-                                "type": "string",
-                                "title": "Mode",
-                                "default": "window"
-                            },
-                            "chunk_size": {
-                                "type": "integer",
-                                "title": "Chunk Size",
-                                "default": 512
-                            },
-                            "similarity_window": {
-                                "type": "integer",
-                                "title": "Similarity Window",
-                                "default": 1
-                            },
-                            "min_sentences": {
-                                "type": "integer",
-                                "title": "Min Sentences",
-                                "default": 1
-                            },
-                            "min_characters_per_sentence": {
-                                "type": "integer",
-                                "title": "Min Characters Per Sentence",
-                                "default": 1
-                            },
-                            "threshold_step": {
-                                "type": "number",
-                                "title": "Threshold Step",
-                                "default": 0.01
-                            },
-                            "delim": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "type": "array"
-                                    }
-                                ],
-                                "title": "Delim",
-                                "default": [
-                                    "\n",
-                                    ".",
-                                    "!",
-                                    "?"
-                                ]
-                            },
-                            "skip_window": {
-                                "type": "integer",
-                                "title": "Skip Window",
-                                "default": 1
-                            },
-                            "return_type": {
-                                "type": "string",
-                                "title": "Return Type",
-                                "default": "chunks"
+                            {
+                                "type": "integer"
                             }
-                        },
-                        "additionalProperties": false
+                        ],
+                        "title": "Threshold",
+                        "default": "auto"
+                    },
+                    "mode": {
+                        "type": "string",
+                        "title": "Mode",
+                        "default": "window"
+                    },
+                    "chunk_size": {
+                        "type": "integer",
+                        "title": "Chunk Size",
+                        "default": 512
+                    },
+                    "similarity_window": {
+                        "type": "integer",
+                        "title": "Similarity Window",
+                        "default": 1
+                    },
+                    "min_sentences": {
+                        "type": "integer",
+                        "title": "Min Sentences",
+                        "default": 1
+                    },
+                    "min_characters_per_sentence": {
+                        "type": "integer",
+                        "title": "Min Characters Per Sentence",
+                        "default": 1
+                    },
+                    "threshold_step": {
+                        "type": "number",
+                        "title": "Threshold Step",
+                        "default": 0.01
+                    },
+                    "delim": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            }
+                        ],
+                        "title": "Delim",
+                        "default": [
+                            "\n",
+                            ".",
+                            "!",
+                            "?"
+                        ]
+                    },
+                    "skip_window": {
+                        "type": "integer",
+                        "title": "Skip Window",
+                        "default": 1
+                    },
+                    "return_type": {
+                        "type": "string",
+                        "title": "Return Type",
+                        "default": "chunks"
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "SemanticChunkerREQ": {
                 "title": "SemanticChunkerREQ",
@@ -947,7 +871,7 @@
                 "type": "object",
                 "required": [
                     "text",
-                    "args"
+                    "chunk_size"
                 ],
                 "properties": {
                     "text": {
@@ -965,109 +889,100 @@
                         "title": "Text",
                         "description": "The input text or list of texts to be chunked."
                     },
-                    "args": {
-                        "type": "object",
-                        "title": "Chunker Arguments",
-                        "required": [
-                            "chunk_size"
-                        ],
-                        "properties": {
-                            "embedding_model": {
+                    "embedding_model": {
+                        "type": "string",
+                        "title": "Embedding Model",
+                        "default": "minishlab/potion-base-8M"
+                    },
+                    "threshold": {
+                        "anyOf": [
+                            {
                                 "type": "string",
-                                "title": "Embedding Model",
-                                "default": "minishlab/potion-base-8M"
+                                "const": "auto"
                             },
-                            "threshold": {
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "const": "auto"
-                                    },
-                                    {
-                                        "type": "number"
-                                    },
-                                    {
-                                        "type": "integer"
-                                    }
-                                ],
-                                "title": "Threshold",
-                                "default": "auto"
+                            {
+                                "type": "number"
                             },
-                            "chunk_size": {
-                                "type": "integer",
-                                "title": "Chunk Size",
-                                "default": 512
+                            {
+                                "type": "integer"
+                            }
+                        ],
+                        "title": "Threshold",
+                        "default": "auto"
+                    },
+                    "chunk_size": {
+                        "type": "integer",
+                        "title": "Chunk Size",
+                        "default": 512
+                    },
+                    "similarity_window": {
+                        "type": "integer",
+                        "title": "Similarity Window",
+                        "default": 1
+                    },
+                    "min_sentences": {
+                        "type": "integer",
+                        "title": "Min Sentences",
+                        "default": 1
+                    },
+                    "min_chunk_size": {
+                        "type": "integer",
+                        "title": "Min Chunk Size",
+                        "default": 2
+                    },
+                    "min_characters_per_sentence": {
+                        "type": "integer",
+                        "title": "Min Characters Per Sentence",
+                        "default": 1
+                    },
+                    "threshold_step": {
+                        "type": "number",
+                        "title": "Threshold Step",
+                        "default": 0.01
+                    },
+                    "delim": {
+                        "anyOf": [
+                            {
+                                "type": "string"
                             },
-                            "similarity_window": {
-                                "type": "integer",
-                                "title": "Similarity Window",
-                                "default": 1
-                            },
-                            "min_sentences": {
-                                "type": "integer",
-                                "title": "Min Sentences",
-                                "default": 1
-                            },
-                            "min_chunk_size": {
-                                "type": "integer",
-                                "title": "Min Chunk Size",
-                                "default": 2
-                            },
-                            "min_characters_per_sentence": {
-                                "type": "integer",
-                                "title": "Min Characters Per Sentence",
-                                "default": 1
-                            },
-                            "threshold_step": {
-                                "type": "number",
-                                "title": "Threshold Step",
-                                "default": 0.01
-                            },
-                            "delim": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "type": "array"
-                                    }
-                                ],
-                                "title": "Delim",
-                                "default": [
-                                    "\n",
-                                    ".",
-                                    "!",
-                                    "?"
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            }
+                        ],
+                        "title": "Delim",
+                        "default": [
+                            "\n",
+                            ".",
+                            "!",
+                            "?"
+                        ]
+                    },
+                    "include_delim": {
+                        "anyOf": [
+                            {
+                                "type": "string",
+                                "enum": [
+                                    "prev",
+                                    "next"
                                 ]
                             },
-                            "include_delim": {
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "enum": [
-                                            "prev",
-                                            "next"
-                                        ]
-                                    },
-                                    {
-                                        "type": "null"
-                                    }
-                                ],
-                                "title": "Include Delim",
-                                "default": "prev"
-                            },
-                            "return_type": {
-                                "type": "string",
-                                "title": "Return Type",
-                                "default": "chunks"
+                            {
+                                "type": "null"
                             }
-                        },
-                        "additionalProperties": false
+                        ],
+                        "title": "Include Delim",
+                        "default": "prev"
+                    },
+                    "return_type": {
+                        "type": "string",
+                        "title": "Return Type",
+                        "default": "chunks"
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "SentenceChunkerREQ": {
                 "title": "SentenceChunkerREQ",
@@ -1075,7 +990,7 @@
                 "type": "object",
                 "required": [
                     "text",
-                    "args"
+                    "chunk_size"
                 ],
                 "properties": {
                     "text": {
@@ -1093,88 +1008,79 @@
                         "title": "Text",
                         "description": "The input text or list of texts to be chunked."
                     },
-                    "args": {
-                        "type": "object",
-                        "title": "Chunker Arguments",
-                        "required": [
-                            "chunk_size"
+                    "tokenizer_or_token_counter": {
+                        "type": "string",
+                        "title": "Tokenizer Or Token Counter",
+                        "default": "gpt2"
+                    },
+                    "chunk_size": {
+                        "type": "integer",
+                        "title": "Chunk Size",
+                        "default": 512
+                    },
+                    "chunk_overlap": {
+                        "type": "integer",
+                        "title": "Chunk Overlap",
+                        "default": 0
+                    },
+                    "min_sentences_per_chunk": {
+                        "type": "integer",
+                        "title": "Min Sentences Per Chunk",
+                        "default": 1
+                    },
+                    "min_characters_per_sentence": {
+                        "type": "integer",
+                        "title": "Min Characters Per Sentence",
+                        "default": 1
+                    },
+                    "approximate": {
+                        "type": "boolean",
+                        "title": "Approximate",
+                        "default": true
+                    },
+                    "delim": {
+                        "anyOf": [
+                            {
+                                "type": "string"
+                            },
+                            {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            }
                         ],
-                        "properties": {
-                            "tokenizer_or_token_counter": {
+                        "title": "Delim",
+                        "default": [
+                            "\n",
+                            ".",
+                            "!",
+                            "?"
+                        ]
+                    },
+                    "include_delim": {
+                        "anyOf": [
+                            {
                                 "type": "string",
-                                "title": "Tokenizer Or Token Counter",
-                                "default": "gpt2"
-                            },
-                            "chunk_size": {
-                                "type": "integer",
-                                "title": "Chunk Size",
-                                "default": 512
-                            },
-                            "chunk_overlap": {
-                                "type": "integer",
-                                "title": "Chunk Overlap",
-                                "default": 0
-                            },
-                            "min_sentences_per_chunk": {
-                                "type": "integer",
-                                "title": "Min Sentences Per Chunk",
-                                "default": 1
-                            },
-                            "min_characters_per_sentence": {
-                                "type": "integer",
-                                "title": "Min Characters Per Sentence",
-                                "default": 1
-                            },
-                            "approximate": {
-                                "type": "boolean",
-                                "title": "Approximate",
-                                "default": true
-                            },
-                            "delim": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "items": {
-                                            "type": "string"
-                                        },
-                                        "type": "array"
-                                    }
-                                ],
-                                "title": "Delim",
-                                "default": [
-                                    "\n",
-                                    ".",
-                                    "!",
-                                    "?"
+                                "enum": [
+                                    "prev",
+                                    "next"
                                 ]
                             },
-                            "include_delim": {
-                                "anyOf": [
-                                    {
-                                        "type": "string",
-                                        "enum": [
-                                            "prev",
-                                            "next"
-                                        ]
-                                    },
-                                    {
-                                        "type": "null"
-                                    }
-                                ],
-                                "title": "Include Delim",
-                                "default": "prev"
-                            },
-                            "return_type": {
-                                "type": "string",
-                                "title": "Return Type",
-                                "default": "chunks"
+                            {
+                                "type": "null"
                             }
-                        },
-                        "additionalProperties": false
+                        ],
+                        "title": "Include Delim",
+                        "default": "prev"
+                    },
+                    "return_type": {
+                        "type": "string",
+                        "title": "Return Type",
+                        "default": "chunks"
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "TokenChunkerREQ": {
                 "title": "TokenChunkerREQ",
@@ -1182,7 +1088,10 @@
                 "type": "object",
                 "required": [
                     "text",
-                    "args"
+                    "tokenizer",
+                    "chunk_size",
+                    "chunk_overlap",
+                    "return_type"
                 ],
                 "properties": {
                     "text": {
@@ -1200,40 +1109,28 @@
                         "title": "Text",
                         "description": "The input text or list of texts to be chunked."
                     },
-                    "args": {
-                        "type": "object",
-                        "title": "Chunker Arguments",
-                        "required": [
-                            "tokenizer",
-                            "chunk_size",
-                            "chunk_overlap",
-                            "return_type"
-                        ],
-                        "properties": {
-                            "tokenizer": {
-                                "type": "string",
-                                "title": "Tokenizer",
-                                "default": "gpt2"
-                            },
-                            "chunk_size": {
-                                "type": "integer",
-                                "title": "Chunk Size",
-                                "default": 512
-                            },
-                            "chunk_overlap": {
-                                "type": "integer",
-                                "title": "Chunk Overlap",
-                                "default": 0
-                            },
-                            "return_type": {
-                                "type": "string",
-                                "title": "Return Type",
-                                "default": "chunks"
-                            }
-                        },
-                        "additionalProperties": false
+                    "tokenizer": {
+                        "type": "string",
+                        "title": "Tokenizer",
+                        "default": "gpt2"
+                    },
+                    "chunk_size": {
+                        "type": "integer",
+                        "title": "Chunk Size",
+                        "default": 512
+                    },
+                    "chunk_overlap": {
+                        "type": "integer",
+                        "title": "Chunk Overlap",
+                        "default": 0
+                    },
+                    "return_type": {
+                        "type": "string",
+                        "title": "Return Type",
+                        "default": "chunks"
                     }
-                }
+                },
+                "additionalProperties": false
             },
             "ValidationError": {
                 "properties": {
@@ -1261,11 +1158,6 @@
                     }
                 },
                 "type": "object",
-                "required": [
-                    "loc",
-                    "msg",
-                    "type"
-                ],
                 "title": "ValidationError"
             },
             "WordChunkerREQ": {
@@ -1274,7 +1166,9 @@
                 "type": "object",
                 "required": [
                     "text",
-                    "args"
+                    "chunk_size",
+                    "chunk_overlap",
+                    "return_type"
                 ],
                 "properties": {
                     "text": {
@@ -1292,39 +1186,28 @@
                         "title": "Text",
                         "description": "The input text or list of texts to be chunked."
                     },
-                    "args": {
-                        "type": "object",
-                        "title": "Chunker Arguments",
-                        "required": [
-                            "chunk_size",
-                            "chunk_overlap",
-                            "return_type"
-                        ],
-                        "properties": {
-                            "tokenizer_or_token_counter": {
-                                "type": "string",
-                                "title": "Tokenizer Or Token Counter",
-                                "default": "gpt2"
-                            },
-                            "chunk_size": {
-                                "type": "integer",
-                                "title": "Chunk Size",
-                                "default": 512
-                            },
-                            "chunk_overlap": {
-                                "type": "integer",
-                                "title": "Chunk Overlap",
-                                "default": 0
-                            },
-                            "return_type": {
-                                "type": "string",
-                                "title": "Return Type",
-                                "default": "chunks"
-                            }
-                        },
-                        "additionalProperties": false
+                    "tokenizer_or_token_counter": {
+                        "type": "string",
+                        "title": "Tokenizer Or Token Counter",
+                        "default": "gpt2"
+                    },
+                    "chunk_size": {
+                        "type": "integer",
+                        "title": "Chunk Size",
+                        "default": 512
+                    },
+                    "chunk_overlap": {
+                        "type": "integer",
+                        "title": "Chunk Overlap",
+                        "default": 0
+                    },
+                    "return_type": {
+                        "type": "string",
+                        "title": "Return Type",
+                        "default": "chunks"
                     }
-                }
+                },
+                "additionalProperties": false
             }
         }
     }
