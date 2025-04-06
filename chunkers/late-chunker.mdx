@@ -45,14 +45,6 @@ chunker = LateChunker(
 </ParamField>
 
 <ParamField
-    path="mode"
-    type="str"
-    default="sentence"
->
-    Mode to use for chunking. Can be "sentence" or "token"
-</ParamField>
-
-<ParamField
     path="chunk_size"
     type="int"
     default="512"
@@ -61,11 +53,11 @@ chunker = LateChunker(
 </ParamField>
 
 <ParamField
-    path="min_sentences_per_chunk"
-    type="int"
-    default="1"
+    path="rules"
+    type="RecursiveRules"
+    default="RecursiveRules()"
 >
-    Minimum number of sentences per chunk
+    Rules to use for chunking
 </ParamField>
 
 <ParamField
@@ -74,22 +66,6 @@ chunker = LateChunker(
     default="12"
 >
     Minimum number of characters per sentence
-</ParamField>
-
-<ParamField
-    path="approximate"
-    type="bool"
-    default="True"
->
-    Whether to use approximate chunking
-</ParamField>
-
-<ParamField
-    path="delim"
-    type="list[str]"
-    default="['.', '!', '?', '\n']"
->
-    Delimiters to use for chunking
 </ParamField>
 
 ## Usage
@@ -140,3 +116,26 @@ class LateChunk(SentenceChunk):
     sentences: List[Sentence]
     embedding: Optional[np.ndarray]  # Sentence embedding vector
 ```
+
+## Additional Information
+
+LateChunker uses the `RecursiveRules` class to determine the chunking rules. 
+The rules are a list of `RecursiveLevel` objects, which define the delimiters and whitespace rules for each level of the recursive tree.
+
+```python
+@dataclass
+class RecursiveRules:
+    rules: List[RecursiveLevel]
+
+@dataclass
+class RecursiveLevel:
+    delimiters: Union[None, str, List[str]]
+    whitespace: bool = False
+```
+
+You can pass in custom rules to the RecursiveChunker, or use the default ones. 
+Default rules are designed to be a good starting point for most documents, but you can customize them to your needs.
+
+<Info>`RecursiveLevel` expects a list of custom delimiters to **not** include whitespace.
+ If whitespace as a delimiter is required, you can set the `whitespace` parameter in the `RecursiveLevel` class to True. 
+ Note that if `whitespace = True`, you cannot pass a list of custom delimiters.</Info>

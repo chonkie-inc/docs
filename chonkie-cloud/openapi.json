@@ -563,66 +563,97 @@
                         "title": "Embedding Model",
                         "default": "sentence-transformers/all-minilm-l6-v2"
                     },
-                    "mode": {
-                        "type": "string",
-                        "title": "Mode",
-                        "default": "sentence"
-                    },
                     "chunk_size": {
                         "type": "integer",
                         "title": "Chunk Size",
                         "default": 512
                     },
-                    "min_sentences_per_chunk": {
-                        "type": "integer",
-                        "title": "Min Sentences Per Chunk",
-                        "default": 1
+                    "rules": {
+                        "additionalProperties": {
+                            "anyOf": [
+                                {
+                                    "type": "string"
+                                },
+                                {
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "type": "array"
+                                },
+                                {
+                                    "additionalProperties": true,
+                                    "type": "object"
+                                },
+                                {
+                                    "items": {
+                                        "additionalProperties": true,
+                                        "type": "object"
+                                    },
+                                    "type": "array"
+                                }
+                            ]
+                        },
+                        "type": "object",
+                        "title": "Rules",
+                        "default": {
+                            "levels": [
+                                {
+                                    "delimiters": [
+                                        "\n\n",
+                                        "\n",
+                                        "\r\n"
+                                    ],
+                                    "include_delim": "prev",
+                                    "whitespace": false
+                                },
+                                {
+                                    "delimiters": [
+                                        ".",
+                                        "?",
+                                        "!"
+                                    ],
+                                    "include_delim": "prev",
+                                    "whitespace": false
+                                },
+                                {
+                                    "delimiters": [
+                                        ",",
+                                        ";",
+                                        ":",
+                                        "...",
+                                        "-",
+                                        "(",
+                                        ")",
+                                        "[",
+                                        "]",
+                                        "{",
+                                        "}",
+                                        "<",
+                                        ">",
+                                        "|",
+                                        "~",
+                                        "`",
+                                        "'",
+                                        "\""
+                                    ],
+                                    "include_delim": "prev",
+                                    "whitespace": false
+                                },
+                                {
+                                    "include_delim": "prev",
+                                    "whitespace": true
+                                },
+                                {
+                                    "include_delim": "prev",
+                                    "whitespace": false
+                                }
+                            ]
+                        }
                     },
-                    "min_characters_per_sentence": {
+                    "min_characters_per_chunk": {
                         "type": "integer",
                         "title": "Min Characters Per Sentence",
                         "default": 1
-                    },
-                    "approximate": {
-                        "type": "boolean",
-                        "title": "Approximate",
-                        "default": true
-                    },
-                    "delim": {
-                        "anyOf": [
-                            {
-                                "type": "string"
-                            },
-                            {
-                                "items": {
-                                    "type": "string"
-                                },
-                                "type": "array"
-                            }
-                        ],
-                        "title": "Delim",
-                        "default": [
-                            "\n",
-                            ".",
-                            "!",
-                            "?"
-                        ]
-                    },
-                    "include_delim": {
-                        "anyOf": [
-                            {
-                                "type": "string",
-                                "enum": [
-                                    "prev",
-                                    "next"
-                                ]
-                            },
-                            {
-                                "type": "null"
-                            }
-                        ],
-                        "title": "Include Delim",
-                        "default": "prev"
                     }
                 },
                 "additionalProperties": false

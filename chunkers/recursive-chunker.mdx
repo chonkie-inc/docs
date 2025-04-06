@@ -134,6 +134,6 @@ class RecursiveLevel:
 
 You can pass in custom rules to the RecursiveChunker, or use the default rules. The default rules are designed to be a good starting point for most documents, but you can customize them to your needs.
 
-<Info> In `RecursiveLevel`, it is expected that only delimiters are provided, without whitespace as a delimiter.
- If whitespace is needed as a delimiter, you can use the `whitespace` parameter in the `RecursiveLevel` class, 
- by setting it to `True`. Though, you cannot pass delimiters in this case.</Info>
+<Info>`RecursiveLevel` expects a list of custom delimiters to **not** include whitespace.
+ If whitespace as a delimiter is required, you can set the `whitespace` parameter in the `RecursiveLevel` class to True. 
+ Note that if `whitespace = True`, you cannot pass a list of custom delimiters.</Info>
