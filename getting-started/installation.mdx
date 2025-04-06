@@ -9,7 +9,7 @@ Chonkie follows a modular approach to dependencies, keeping the base installatio
 
 ## Basic Installation
 
-For basic token and word chunking capabilities:
+For basic token and sentence chunking capabilities:
 
 ```bash
 pip install chonkie
@@ -20,7 +20,7 @@ pip install chonkie
 Chonkie provides several installation options to match your specific needs:
 
 ```bash
-# Basic installation (TokenChunker, WordChunker, SentenceChunker)
+# Basic installation (TokenChunker, SentenceChunker)
 pip install chonkie
 
 # For the default semantic provider support
@@ -41,9 +41,9 @@ pip install "chonkie[all]"
 The following table shows which chunkers are available with different installation options:
 
 | Chunker | Default | embeddings | 'all' |
-|---------|---------|-----------|----------|
+|-------|:-------:|:----------:|:-------:|
 | TokenChunker | ✅ | ✅ |  ✅ |
-| WordChunker | ✅ | ✅ |  ✅ |
+| RecursiveChunker | ✅ | ✅ |  ✅ |
 | SentenceChunker | ✅ |  ✅ | ✅ |
 | SemanticChunker | ❌ |  ✅ | ✅ |
 | SDPMChunker | ❌ | ✅ | ✅ |
@@ -57,7 +57,7 @@ However, `LateChunker` requires the `sentence-transformers` library to be instal
 Different embedding providers are available with different installation options:
 
 | Embeddings Provider | Default | 'model2vec' | 'st' | 'openai' | 'semantic'| 'all' |
-|--------------------|---------|-----------|----------|-------|--------|---------|
+|------------------|:-------:|:-----------:|:------:|:-------:|:--------:|:-------:|
 | Model2VecEmbeddings | ❌| ✅ | ❌ | ❌ | ✅ | ✅ |
 | SentenceTransformerEmbeddings | ❌ | ❌| ✅ | ❌ | ❌ | ✅|
 | OpenAIEmbeddings | ❌ | ❌ | ❌ | ✅ | ❌ | ✅|
@@ -67,7 +67,7 @@ Different embedding providers are available with different installation options:
 Here's what each installation option adds:
 
 | Installation Option | Additional Dependencies |
-|--------------------|------------------------|
+|------------------|------------------------|
 | Default | autotiktokenizer |
 | 'model2vec' | + model2vec, numpy |
 | 'st' | + sentence-transformers, numpy |
