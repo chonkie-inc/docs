@@ -106,13 +106,13 @@
       "og:title": "Chonkie Documentation",
       "og:description": "🦛 CHONK your text with Chonkie✨ - A no nonsense text chunking library for RAGs",
       "og:url": "https://docs.chonkie.ai",
-      "og:image": "/images/chonkie_logo_white_bg.png",
+      "og:image": "/images/chonkie_logo_white_bg_brown.png",
       "og:logo": "/logo/chonkie_logo_horizontal_large.png",
-      "article:publisher": "https://github.com/bhavnicksm",
+      "article:publisher": "https://github.com/chonkie-inc",
       "twitter:title": "Chonkie Documentation",
       "twitter:description": "🦛 CHONK your text with Chonkie✨ - A no nonsense text chunking library for RAGS",
       "twitter:site": "https://docs.chonkie.ai",
-      "twitter:image": "/images/chonkie_logo_white_bg.png"
+      "twitter:image": "/images/chonkie_logo_white_bg_brown.png"
     },
     "indexing": "navigable"
   },
