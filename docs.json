@@ -9,9 +9,9 @@
   },
   "favicon": "/favicon.png",
   "navigation": {
-    "anchors": [
+    "tabs": [
       {
-        "anchor": "Documentation",
+        "tab": "Documentation",
         "icon": "book",
         "groups": [
           {
@@ -45,19 +45,21 @@
               "embeddings/model2vec-embeddings",
               "embeddings/custom-embeddings"
             ]
-          },
-          {
-            "group": "Chonkie Cloud",
-            "openapi": {
-              "source": "chonkie-cloud/openapi.json",
-              "directory": "chonkie-cloud"
-            }
           }
         ]
+      },
+      {
+        "tab": "Chonkie Cloud",
+        "openapi": "/chonkie-cloud/openapi.json"
       }
     ],
     "global": {
       "anchors": [
+        {
+          "anchor": "Chonkie Cloud",
+          "href": "https://cloud.chonkie.ai",
+          "icon": "cloud"
+        },
         {
           "anchor": "Discord",
           "href": "https://discord.gg/Q6zkP8w6ur",
@@ -89,12 +91,6 @@
     }
   },
   "navbar": {
-    "links": [
-      {
-        "label": "Chonkie Cloud",
-        "href": "https://cloud.chonkie.ai"
-      }
-    ],
     "primary": {
       "type": "github",
       "href": "https://github.com/chonkie-inc/chonkie"
