@@ -19,10 +19,10 @@ from chonkie import SentenceChunker
 
 # Basic initialization with default parameters
 chunker = SentenceChunker(
-    tokenizer="gpt2",                # Supports string identifiers
-    chunk_size=512,                  # Maximum tokens per chunk
-    chunk_overlap=128,               # Overlap between chunks
-    min_sentences_per_chunk=1        # Minimum sentences in each chunk
+    tokenizer_or_token_counter="gpt2",      # Supports string identifiers
+    chunk_size=512,                         # Maximum tokens per chunk
+    chunk_overlap=128,                      # Overlap between chunks
+    min_sentences_per_chunk=1               # Minimum sentences in each chunk
 )
 ```
 
