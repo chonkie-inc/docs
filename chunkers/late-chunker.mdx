@@ -27,9 +27,8 @@ from chonkie import LateChunker
 
 chunker = LateChunker(
     embedding_model="all-MiniLM-L6-v2",
-    mode = "sentence",
     chunk_size=512,
-    min_sentences_per_chunk=1,
+    rules=RecursiveRules(),
     min_characters_per_chunk=24,
 )
 ```
@@ -109,12 +108,14 @@ LateChunker returns `LateChunk` objects with optimized storage using slots:
 ```python
 @dataclass
 class LateChunk(SentenceChunk):
-    text: str
-    start_index: int
-    end_index: int
-    token_count: int
-    sentences: List[Sentence]
-    embedding: Optional[np.ndarray]  # Sentence embedding vector
+    text: str  # The text of the chunk.
+    start_index: int  # The start index of the chunk.
+    end_index: int  # The end index of the chunk.
+    token_count: int  # The number of tokens in the chunk.
+    start_token: int  # The start token of the chunk.
+    end_token: int  # The end token of the chunk.
+    sentences: list[LateSentence]  # The sentences in the chunk.
+    embedding: Optional[np.ndarray]  # The embedding of the chunk.
 ```
 
 ## Additional Information
@@ -131,11 +132,12 @@ class RecursiveRules:
 class RecursiveLevel:
     delimiters: Union[None, str, List[str]]
     whitespace: bool = False
+    include_delim: Optional[Literal["prev", "next"]]  # Whether to include the delimiter at all, or in the previous chunk, or the next chunk.
 ```
 
 You can pass in custom rules to the RecursiveChunker, or use the default ones. 
 Default rules are designed to be a good starting point for most documents, but you can customize them to your needs.
 
-<Info>`RecursiveLevel` expects a list of custom delimiters to **not** include whitespace.
+<Info>`RecursiveLevel` expects the list of custom delimiters to **not** include whitespace.
  If whitespace as a delimiter is required, you can set the `whitespace` parameter in the `RecursiveLevel` class to True. 
  Note that if `whitespace = True`, you cannot pass a list of custom delimiters.</Info>

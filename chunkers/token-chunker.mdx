@@ -38,7 +38,7 @@ chunker = TokenChunker(
 
 <ParamField
     path="tokenizer"
-    type="Union[str, tokenizers.Tokenizer, tiktoken.Encoding]"
+    type="Union[str, Any]"
     default="gpt2"
 >
     Tokenizer to use. Can be a string identifier or a tokenizer instance
@@ -56,9 +56,17 @@ chunker = TokenChunker(
 <ParamField
     path="chunk_overlap"
     type="Union[int, float]"
-    default="128"
+    default="0"
 >
     Number or percentage of overlapping tokens between chunks
+</ParamField>
+
+<ParamField
+    path="return_type"
+    type="Literal['chunks', 'texts']"
+    default="chunks"
+>
+    Whether to return chunks as `Chunk` objects or plain text strings
 </ParamField>
 
 ## Usage
@@ -130,7 +138,17 @@ TokenChunker supports multiple tokenizer backends:
 
 ## Return Type
 
-TokenChunker returns chunks as `Chunk` objects with the following attributes:
+TokenChunker returns chunks as `Chunk` objects. 
+Chunks object include a custom `Context` class for additional metadata alongside other attributes:
+
+```python
+@dataclass
+class Context:
+    text: str
+    token_count: int
+    start_index: Optional[int] = None
+    end_index: Optional[int] = None
+```
 
 ```python
 @dataclass
@@ -139,4 +157,5 @@ class Chunk:
     start_index: int    # Starting position in original text
     end_index: int      # Ending position in original text
     token_count: int    # Number of tokens in chunk
+    context: Optional[Context]  # Contextual information (if any)
 ```

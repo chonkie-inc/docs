@@ -42,8 +42,16 @@ chunker = SDPMChunker(
 </ParamField>
 
 <ParamField
+    path="chunk_size"
+    type="int"
+    default="512"
+>
+    Maximum tokens per chunk
+</ParamField>
+
+<ParamField
     path="mode"
-    type="Optional[str]"
+    type="str"
     default="window"
 >
     Mode for grouping sentences, either "cumulative" or "window"
@@ -51,20 +59,12 @@ chunker = SDPMChunker(
 
 <ParamField
     path="threshold"
-    type="Optional[float, int, str]"
+    type="Union[float, int, str]"
     default="auto"
 >
     When in the range [0,1], denotes the similarity threshold to consider sentences similar.
     When in the range (1,100], interprets the given value as a percentile threshold.
     When set to "auto", the threshold is automatically calculated.
-</ParamField>
-
-<ParamField
-    path="chunk_size"
-    type="int"
-    default="512"
->
-    Maximum tokens per chunk
 </ParamField>
 
 <ParamField
@@ -85,8 +85,8 @@ chunker = SDPMChunker(
 
 <ParamField
     path="min_chunk_size"
-    type="Optional[int]"
-    default="None"
+    type="int"
+    default="2"
 >
     Minimum tokens per chunk
 </ParamField>
@@ -101,7 +101,7 @@ chunker = SDPMChunker(
 
 <ParamField
     path="threshold_step"
-    type="Optional[float]"
+    type="float"
     default="0.01"
 >
     Step size for threshold calculation
@@ -116,11 +116,27 @@ chunker = SDPMChunker(
 </ParamField>
 
 <ParamField
+    path="include_delim"
+    type='Optional[Literal["prev", "next"]]'
+    default="prev"
+>
+    Include delimiters in the chunk text. If so, specify whether to include the previous or next delimiter.
+</ParamField>
+
+<ParamField
     path="skip_window"
     type="int"
     default="1"
 >
     Number of chunks to skip when looking for similarities
+</ParamField>
+
+<ParamField
+    path="return_type"
+    type="Literal['chunks', 'texts']"
+    default="chunks"
+>
+    Return type for the chunking process. If "chunks", returns a list of `SemanticChunk` objects. If "texts", returns a list of strings.
 </ParamField>
 
 ## Usage
@@ -159,7 +175,8 @@ for doc_chunks in batch_chunks:
 
 ## Supported Embeddings
 
-SDPMChunker supports multiple embedding providers through Chonkie's embedding system. See the [Embeddings Overview](/embeddings/overview) for more information.
+SDPMChunker supports multiple embedding providers through Chonkie's embedding system. 
+See the [Embeddings Overview](/embeddings/overview) for more information.
 
 ## Return Type
 

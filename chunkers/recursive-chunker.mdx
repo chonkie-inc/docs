@@ -19,18 +19,19 @@ The RecursiveChunker is included in the base installation of Chonkie. No additio
 from chonkie import RecursiveChunker, RecursiveRules
 
 chunker = RecursiveChunker(
-    tokenizer="gpt2",
-    chunk_size=512,
-    rules=RecursiveRules(), # Default rules
-    min_characters_per_chunk=12,
+    tokenizer_or_token_counter: Union[str, Callable, Any] = "gpt2",
+    chunk_size: int = 512,
+    rules: RecursiveRules = RecursiveRules(),
+    min_characters_per_chunk: int = 24,
+    return_type: Literal["texts", "chunks"] = "chunks",
 )
 ```
 
 ## Parameters
 
 <ParamField
-    path="tokenizer"
-    type="Union[str, tokenizers.Tokenizer, tiktoken.Encoding]"
+    path="tokenizer_or_token_counter"
+    type="Union[str, Callable, Any]"
     default="gpt2"
 >
     Tokenizer to use. Can be a string identifier or a tokenizer instance
@@ -46,7 +47,7 @@ chunker = RecursiveChunker(
 
 <ParamField
     path="rules"
-    type="Optional[RecursiveRules]"
+    type="RecursiveRules"
     default="RecursiveRules()"
 >
     Rules to use for chunking.
@@ -128,12 +129,13 @@ class RecursiveRules:
 
 @dataclass
 class RecursiveLevel:
-    delimiters: Union[None, str, List[str]]
+    delimiters: Optional[Union[str, List[str]]]
     whitespace: bool = False
+    include_delim: Optional[Literal["prev", "next"]])  # Whether to include the delimiter at all, or in the previous chunk, or the next chunk.
 ```
 
 You can pass in custom rules to the RecursiveChunker, or use the default rules. The default rules are designed to be a good starting point for most documents, but you can customize them to your needs.
 
-<Info>`RecursiveLevel` expects a list of custom delimiters to **not** include whitespace.
+<Info>`RecursiveLevel` expects the list of custom delimiters to **not** include whitespace.
  If whitespace as a delimiter is required, you can set the `whitespace` parameter in the `RecursiveLevel` class to True. 
  Note that if `whitespace = True`, you cannot pass a list of custom delimiters.</Info>

@@ -42,7 +42,7 @@ chunker = SemanticChunker(
 
 <ParamField
     path="mode"
-    type="Optional[str]"
+    type="str"
     default="window"
 >
     Mode for grouping sentences, either "cumulative" or "window"
@@ -50,7 +50,7 @@ chunker = SemanticChunker(
 
 <ParamField
     path="threshold"
-    type="Optional[float, int, str]"
+    type="Union[float, int, str]"
     default="auto"
 >
    When in the range [0,1], denotes the similarity threshold to consider sentences similar.
@@ -83,14 +83,6 @@ chunker = SemanticChunker(
 </ParamField>
 
 <ParamField
-    path="min_characters_per_sentence"
-    type="int"
-    default="12"
->
-    Minimum number of characters per sentence
-</ParamField>
-
-<ParamField
     path="min_chunk_size"
     type="Optional[int]"
     default="None"
@@ -99,8 +91,16 @@ chunker = SemanticChunker(
 </ParamField>
 
 <ParamField
+    path="min_characters_per_sentence"
+    type="int"
+    default="12"
+>
+    Minimum number of characters per sentence
+</ParamField>
+
+<ParamField
     path="threshold_step"
-    type="Optional[float]"
+    type="float"
     default="0.01"
 >
     Step size for similarity threshold calculation
@@ -112,6 +112,22 @@ chunker = SemanticChunker(
     default="['.', '!', '?', '\n']"
 >
     Delimiters to split sentences on
+</ParamField>
+
+<ParamField>
+    path="include_delim"
+    type='Optional[Literal["prev", "next"]]'
+    default="prev"
+>
+    Include delimiters in the chunk text. If so, specify whether to include the previous or next delimiter.
+</ParamField>
+
+<ParamField
+    path="return_type"
+    type="Literal['texts', 'chunks']"
+    default="'chunks'"
+>
+    Return type for chunking. If "chunks", returns a list of `SemanticChunk` objects. If "texts", returns a list of strings.
 </ParamField>
 
 ## Usage

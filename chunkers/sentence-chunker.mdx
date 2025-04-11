@@ -19,7 +19,7 @@ from chonkie import SentenceChunker
 
 # Basic initialization with default parameters
 chunker = SentenceChunker(
-    tokenizer="gpt2",                # Supports string identifiers
+    tokenizer_or_token_counter="gpt2",                # Supports string identifiers
     chunk_size=512,                  # Maximum tokens per chunk
     chunk_overlap=128,               # Overlap between chunks
     min_sentences_per_chunk=1        # Minimum sentences in each chunk
@@ -29,8 +29,8 @@ chunker = SentenceChunker(
 ## Parameters
 
 <ParamField
-    path="tokenizer"
-    type="Union[str, tokenizers.Tokenizer, tiktoken.Encoding]"
+    path="tokenizer_or_token_counter"
+    type="Union[str, Callable, Any]"
     default="gpt2"
 >
     Tokenizer to use. Can be a string identifier or a tokenizer instance
@@ -47,17 +47,9 @@ chunker = SentenceChunker(
 <ParamField
     path="chunk_overlap"
     type="int"
-    default="128"
+    default="0"
 >
     Number of overlapping tokens between chunks
-</ParamField>
-
-<ParamField
-    path="min_chunk_size"
-    type="Optional[int]"
-    default="None"
->
-    Minimum tokens per chunk
 </ParamField>
 
 <ParamField
@@ -68,7 +60,46 @@ chunker = SentenceChunker(
     Minimum number of sentences to include in each chunk
 </ParamField>
 
+<ParamField
+    path="min_characters_per_sentence"
+    type="int"
+    default="12"
+>
+    Minimum number of characters per sentence
+</ParamField>
 
+<ParamField
+    path="approximate"
+    type="bool"
+    default="False"
+>
+    Use approximate token counting for faster processing.
+    **Note**: This field is deprecated and will be removed in future versions.
+</ParamField>
+
+<ParamField
+    path="delim"
+    type="Union[str, List[str]]"
+    default="['.', '!', '?', '\n']"
+>
+    Delimiters to split sentences on
+</ParamField>
+
+<ParamField
+    path="include_delim"
+    type='Optional[Literal["prev", "next"]]'
+    default="prev"
+>
+    Include delimiters in the chunk text. If so, specify whether to include the previous or next delimiter.
+</ParamField>
+
+<ParamField
+    path="return_type"
+    type="Literal['texts', 'chunks']"
+    default="chunks"
+>
+    Whether to return chunks as text strings or as `SentenceChunk` objects.
+</ParamField>
 
 ## Usage
 
