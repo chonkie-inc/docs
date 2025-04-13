@@ -568,87 +568,17 @@
                         "title": "Chunk Size",
                         "default": 512
                     },
-                    "rules": {
-                        "additionalProperties": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "items": {
-                                        "type": "string"
-                                    },
-                                    "type": "array"
-                                },
-                                {
-                                    "additionalProperties": true,
-                                    "type": "object"
-                                },
-                                {
-                                    "items": {
-                                        "additionalProperties": true,
-                                        "type": "object"
-                                    },
-                                    "type": "array"
-                                }
-                            ]
-                        },
-                        "type": "object",
-                        "title": "Rules",
-                        "default": {
-                            "levels": [
-                                {
-                                    "delimiters": [
-                                        "\n\n",
-                                        "\n",
-                                        "\r\n"
-                                    ],
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                },
-                                {
-                                    "delimiters": [
-                                        ".",
-                                        "?",
-                                        "!"
-                                    ],
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                },
-                                {
-                                    "delimiters": [
-                                        ",",
-                                        ";",
-                                        ":",
-                                        "...",
-                                        "-",
-                                        "(",
-                                        ")",
-                                        "[",
-                                        "]",
-                                        "{",
-                                        "}",
-                                        "<",
-                                        ">",
-                                        "|",
-                                        "~",
-                                        "`",
-                                        "'",
-                                        "\""
-                                    ],
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                },
-                                {
-                                    "include_delim": "prev",
-                                    "whitespace": true
-                                },
-                                {
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                }
-                            ]
-                        }
+                    "recipe": {
+                        "type": "string",
+                        "title": "Recipe",
+                        "default": "default",
+                        "description": "Rules to split text by. Find all recipes on our [Hugging Face](https://huggingface.co/datasets/chonkie-ai/recipes)."
+                    },
+                    "lang": {
+                        "type": "string",
+                        "title": "Language",
+                        "default": "en",
+                        "description": "Language of the text. This must match the language of the recipe."
                     },
                     "min_characters_per_chunk": {
                         "type": "integer",
@@ -691,87 +621,17 @@
                         "title": "Chunk Size",
                         "default": 512
                     },
-                    "rules": {
-                        "additionalProperties": {
-                            "anyOf": [
-                                {
-                                    "type": "string"
-                                },
-                                {
-                                    "items": {
-                                        "type": "string"
-                                    },
-                                    "type": "array"
-                                },
-                                {
-                                    "additionalProperties": true,
-                                    "type": "object"
-                                },
-                                {
-                                    "items": {
-                                        "additionalProperties": true,
-                                        "type": "object"
-                                    },
-                                    "type": "array"
-                                }
-                            ]
-                        },
-                        "type": "object",
-                        "title": "Rules",
-                        "default": {
-                            "levels": [
-                                {
-                                    "delimiters": [
-                                        "\n\n",
-                                        "\n",
-                                        "\r\n"
-                                    ],
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                },
-                                {
-                                    "delimiters": [
-                                        ".",
-                                        "?",
-                                        "!"
-                                    ],
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                },
-                                {
-                                    "delimiters": [
-                                        ",",
-                                        ";",
-                                        ":",
-                                        "...",
-                                        "-",
-                                        "(",
-                                        ")",
-                                        "[",
-                                        "]",
-                                        "{",
-                                        "}",
-                                        "<",
-                                        ">",
-                                        "|",
-                                        "~",
-                                        "`",
-                                        "'",
-                                        "\""
-                                    ],
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                },
-                                {
-                                    "include_delim": "prev",
-                                    "whitespace": true
-                                },
-                                {
-                                    "include_delim": "prev",
-                                    "whitespace": false
-                                }
-                            ]
-                        }
+                    "recipe": {
+                        "type": "string",
+                        "title": "Recipe",
+                        "default": "default",
+                        "description": "Rules to split text by. Find all recipes on our [Hugging Face](https://huggingface.co/datasets/chonkie-ai/recipes)."
+                    },
+                    "lang": {
+                        "type": "string",
+                        "title": "Language",
+                        "default": "en",
+                        "description": "Language of the text. This must match the language of the recipe."
                     },
                     "min_characters_per_chunk": {
                         "type": "integer",
