@@ -51,6 +51,12 @@
       {
         "tab": "Chonkie Cloud",
         "openapi": "/chonkie-cloud/openapi.json"
+      },
+      {
+        "tab": "Changelog",
+        "pages": [
+          "changelog/changelog"
+        ]
       }
     ],
     "global": {

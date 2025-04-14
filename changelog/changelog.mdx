@@ -1,0 +1,40 @@
+---
+title: Changelog
+description: Release updates and changes
+---
+
+<Update label="v1.0.3">
+  # v1.0.3 Release Highlights ✨
+
+  * **Chonkie `Visualizer`**: Visualize and debug chunks easily via terminal printouts or HTML saves. Understand chunk quality and debug your chunker with visual feedback~ Use the `print` method to print rich text on your terminal or use the `save` method to save a highlighted `html` on your device! It's very simple to use, just pass in your chunks~
+
+    ```python
+    from chonkie import Visualizer
+
+    viz = Visualizer()
+
+    # Print the chunks on the terminal with .print or directly call the Visualizer object too
+    viz.print(chunks) 
+
+    # Save the HTML file
+    viz.save("chonkie.html", chunks)
+    ```
+
+    <img width="1028" alt="Chonkie Visualizer Example" src="https://github.com/user-attachments/assets/ea38959b-01bd-4be9-90de-6442542e98a0" />
+
+  * **Recipes**: Chonkie now adds support for `Recipes` which allow you to use multilingual chunking out-of-the-box, as well as document specific chunking methods. Initial support starts with: `en`, `hi`, `zh`, `jp` and `ko`, while document type `markdown` is supported too. Use it via the `from_recipe` class method with any chunker that takes delimiters or `RecursiveRules`.
+
+    ```python
+    from chonkie import RecursiveChunker
+
+    # Initialize the recursive chunker to chunk Markdown
+    chunker = RecursiveChunker.from_recipe("markdown", lang="en")
+
+    # Initialize the recursive chunker to chunk Hindi texts
+    chunker = RecursiveChunker.from_recipe(lang="hi")
+    ```
+
+  * Performance enhancements in `RecursiveChunker`, `SentenceChunker`, and `WordTokenizer`.
+
+  **Full Changelog**: https://github.com/chonkie-inc/chonkie/compare/v1.0.2...v1.0.3
+</Update>
