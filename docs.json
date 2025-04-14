@@ -49,7 +49,7 @@
         ]
       },
       {
-        "tab": "Chonkie Cloud",
+        "tab": "Chonkie API",
         "openapi": "/chonkie-cloud/openapi.json"
       },
       {
@@ -62,19 +62,9 @@
     "global": {
       "anchors": [
         {
-          "anchor": "Chonkie Cloud",
-          "href": "https://cloud.chonkie.ai",
-          "icon": "cloud"
-        },
-        {
           "anchor": "Discord",
           "href": "https://discord.gg/Q6zkP8w6ur",
           "icon": "discord"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://blog.chonkie.ai/",
-          "icon": "newspaper"
         }
       ]
     }
@@ -100,7 +90,13 @@
     "primary": {
       "type": "github",
       "href": "https://github.com/chonkie-inc/chonkie"
-    }
+    },
+    "links": [
+      {
+        "label": "Chonkie Cloud",
+        "href": "https://cloud.chonkie.ai"
+      }
+    ]
   },
   "seo": {
     "metatags": {
