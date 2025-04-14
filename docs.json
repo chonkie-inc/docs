@@ -77,7 +77,7 @@
     "dark": "/logo/chonkie_logo_horizontal_large.png"
   },
   "appearance": {
-    "default": "dark",
+    "default": "light",
     "strict": false
   },
   "background": {
