@@ -647,6 +647,88 @@
                     }
                 }
             }
+        },
+        "/v1/chunk/code": {
+            "post": {
+                "summary": "Code Chunker",
+                "description": "Chunk the given code text or file using the Code Chunker.",
+                "operationId": "get_code_chunks_v1_chunk_code_post",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "required": [
+                                    "language"
+                                ],
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The file containing code to be chunked. Use this OR the 'text' field."
+                                    },
+                                    "text": {
+                                        "anyOf": [
+                                            { "type": "string" },
+                                            { "items": { "type": "string" }, "type": "array" }
+                                        ],
+                                        "title": "Text",
+                                        "description": "The raw input code text or list of texts to be chunked. Use this OR the 'file' field."
+                                    },
+                                    "tokenizer_or_token_counter": {
+                                        "type": "string",
+                                        "title": "Tokenizer Or Token Counter",
+                                        "default": "gpt2",
+                                        "description": "Tokenizer or token counter function to use."
+                                    },
+                                    "chunk_size": {
+                                        "type": "integer",
+                                        "title": "Chunk Size",
+                                        "default": 512,
+                                        "description": "Maximum number of tokens per chunk."
+                                    },
+                                    "language": {
+                                        "type": "string",
+                                        "title": "Language",
+                                        "description": "The programming language of the code. Accepts languages supported by tree-sitter-language-pack."
+                                    },
+                                    "include_nodes": {
+                                        "type": "boolean",
+                                        "title": "Include Nodes",
+                                        "default": false,
+                                        "description": "Whether to include the AST nodes in the returned chunks."
+                                    },
+                                    "return_type": {
+                                        "type": "string",
+                                        "title": "Return Type",
+                                        "default": "chunks",
+                                        "enum": [ "texts", "chunks" ],
+                                        "description": "Whether to return chunks as CodeChunk objects or plain text strings."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response: A list of code chunk objects.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "CodeChunkResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/CodeChunkSchema"
+                                    },
+                                    "description": "A list containing code chunk objects, each detailing a segment of the original code and optionally the corresponding AST nodes."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -897,6 +979,71 @@
                         },
                         "title": "Embedding",
                         "description": "Optional embedding vector for the entire chunk (array of floats or null)."
+                    }
+                }
+            },
+            "NodeSchema": {
+                "title": "Node",
+                "description": "Represents a node in the Abstract Syntax Tree (AST) of the code.",
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "description": "The text content of the node."
+                    },
+                    "start_byte": {
+                        "type": "integer",
+                        "title": "Start Byte",
+                        "description": "The starting byte index of the node within the original code text."
+                    },
+                    "end_byte": {
+                        "type": "integer",
+                        "title": "End Byte",
+                        "description": "The ending byte index (exclusive) of the node within the original code text."
+                    },
+                    "type": {
+                        "type": "string",
+                        "title": "Type",
+                        "description": "The type of the AST node (e.g., 'function_definition', 'identifier')."
+                    }
+                }
+            },
+            "CodeChunkSchema": {
+                "title": "CodeChunk",
+                "description": "Represents a chunk generated by the Code Chunker, potentially including AST nodes.",
+                "type": "object",
+                "properties": {
+                    "text": {
+                        "type": "string",
+                        "title": "Text",
+                        "description": "The actual code text content of the chunk."
+                    },
+                    "start_index": {
+                        "type": "integer",
+                        "title": "Start Index",
+                        "description": "The starting character index of the chunk within the original input code."
+                    },
+                    "end_index": {
+                        "type": "integer",
+                        "title": "End Index",
+                        "description": "The ending character index (exclusive) of the chunk within the original input code."
+                    },
+                    "token_count": {
+                        "type": "integer",
+                        "title": "Token Count",
+                        "description": "The number of tokens in this specific chunk, according to the tokenizer used."
+                    },
+                    "nodes": {
+                        "type": [
+                            "array",
+                            "null"
+                        ],
+                        "items": {
+                            "$ref": "#/components/schemas/NodeSchema"
+                        },
+                        "title": "Nodes",
+                        "description": "Optional list of AST nodes contained within this chunk (present if include_nodes is true)."
                     }
                 }
             },
