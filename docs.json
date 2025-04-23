@@ -30,6 +30,7 @@
               "chunkers/token-chunker",
               "chunkers/sentence-chunker",
               "chunkers/recursive-chunker",
+              "chunkers/code-chunker",
               "chunkers/semantic-chunker",
               "chunkers/sdpm-chunker",
               "chunkers/late-chunker"

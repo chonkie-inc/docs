@@ -52,6 +52,13 @@ outlined in the [concepts](/getting-started/concepts) page.
   >
     Chunks using Late Chunking algorithm, best for higher recall in your RAG applications.
   </Card>
+  <Card
+    title="CodeChunker"
+    icon="laptop"
+    href="/chunkers/code-chunker"
+  >
+    Splits code based on its structure using ASTs. Ideal for chunking source code files.
+  </Card>
 </CardGroup>
 
 ## Availability
@@ -61,8 +68,9 @@ Different chunkers are available depending on your installation:
 | Chunker         | Default | embeddings | 'all' | Chonkie Cloud |
 |-----------------|:-------:|:----------:|:-----:|:-------------:|
 | TokenChunker    | ✅      | ✅         | ✅    | ✅            |
-| RecursiveChunker| ✅      | ✅         | ✅    | ✅            |
 | SentenceChunker | ✅      | ✅         | ✅    | ✅            |
+| RecursiveChunker| ✅      | ✅         | ✅    | ✅            |
+| CodeChunker     | ❌      | ✅          | ✅    | ✅            |
 | SemanticChunker | ❌      | ✅         | ✅    | ✅            |
 | SDPMChunker     | ❌      | ✅         | ✅    | ✅            |
 | LateChunker     | ❌      | ✅         | ✅    | ✅            |
