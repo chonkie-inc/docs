@@ -1,8 +1,107 @@
 ---
 title: Changelog
-description: Release updates and changes
+description: Chonkie's Release Notes and Updates 🦛✨
 mode: wide
+icon: "hippo"
+iconType: "solid"
 ---
+
+<Update label="v1.0.5">
+  # v1.0.5 Release Highlights ✨
+
+  This is a quick patch release to include `CodeChunker` in the `__init__.py` for `chonkie` so it can be properly accessed via `from chonkie import CodeChunker`.
+  
+  **Full Changelog**: https://github.com/chonkie-inc/chonkie/compare/v1.0.4...v1.0.5
+</Update>
+
+
+<Update label="v1.0.4">
+  # v1.0.4 Release Highlights ✨
+
+  - **New `CodeChunker`**: Introducing the `CodeChunker`, specialized for handling code files across 100+ programming languages. It understands code structure to provide more meaningful chunks.
+  
+  ```bash
+  pip install "chonkie[code]"
+  ```
+
+  ```python  
+  # Initialize the code chunker
+  chunker = CodeChunker(language="python")
+
+  # Chunk the code
+  code = ... # Your code string
+
+  # CHONK!
+  chunks = chunker(code)
+  ```
+
+  - **`JinaAI` Embeddings Support**: Added `JinaEmbeddings`, enabling their use with `SemanticChunker` and `SDPMChunker`. Just install the `jina` optional install to use it! 
+
+  ```bash
+  pip install "chonkie[jina]"
+  ```
+
+  ```python
+  # Initialize the Jina embeddings  
+  from chonkie import JinaEmbeddings, SemanticChunker
+  
+  # Initialize the Jina embeddings
+  embeddings = JinaEmbeddings()
+
+  # Initialize the semantic chunker
+  chunker = SemanticChunker(embeddings)
+
+  # Chunk the text
+  text = ... # Your text string
+
+  # CHONK!
+  chunks = chunker(text)
+  ```
+
+  - **`OverlapRefinery`**: Enhance your chunks by adding overlapping context using the new `OverlapRefinery`. It's included in the default install and works seamlessly with any chunker.
+  
+  ```python
+  # Initialize the recursive chunker  
+  from chonkie import RecursiveChunker, OverlapRefinery
+  chunker = RecursiveChunker()
+
+  # Initialize the overlap refinery
+  refinery = OverlapRefinery() # Or OverlapRefinery("gpt2")
+
+  # Chunk the text
+  text = ... # Your text string
+
+  # CHONK!
+  chunks = chunker(text)
+
+  # Refine the chunks
+  chunks = refinery(chunks)
+  ```
+
+  - **`EmbeddingsRefinery`**: Compute and attach embeddings directly to your chunks using the `EmbeddingsRefinery`. Streamline the process of loading chunks into vector databases.
+  
+  ```python
+  from chonkie import RecursiveChunker, EmbeddingsRefinery, JinaEmbeddings
+
+  # Initialize the recursive chunker
+  chunker = RecursiveChunker()
+
+  # Initialize the embeddings model
+  # Here we use Jina embeddings for this example, but you can use any other embeddings model
+  embeddings = JinaEmbeddings()
+
+  # Initialize the embeddings refinery
+  refinery = EmbeddingsRefinery(embeddings)
+
+  # Chunk the text
+  text = ... # Your text string
+  chunks = chunker(text)
+  chunks = refinery(chunks) # Each chunk now has a .embedding attribute
+    ```
+  **Full Changelog**:  https://github.com/chonkie-inc/chonkie/compare/v1.0.3...v1.0.4
+
+</Update>
+
 
 <Update label="v1.0.3">
   # v1.0.3 Release Highlights ✨
