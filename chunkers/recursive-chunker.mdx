@@ -15,6 +15,10 @@ The RecursiveChunker is included in the base installation of Chonkie. No additio
 
 ## Initialization
 
+The RecursiveChunker uses `RecursiveRules` to determine how to chunk the text. 
+The rules are a list of `RecursiveLevel` objects, which define the delimiters and whitespace rules for each level of the recursive tree.
+Find more information about the rules in the [Additional Information](#additional-information) section.
+
 ```python
 from chonkie import RecursiveChunker, RecursiveRules
 
@@ -25,6 +29,18 @@ chunker = RecursiveChunker(
     min_characters_per_chunk: int = 24,
     return_type: Literal["texts", "chunks"] = "chunks",
 )
+```
+
+You can also initialize the RecursiveChunker using a recipe. Recipes are pre-defined rules for common chunking tasks.
+Find all available recipes on our Hugging Face Hub [here](https://huggingface.co/datasets/chonkie-ai/recipes).
+```
+from chonkie import RecursiveChunker
+
+# Initialize the recursive chunker to chunk Markdown
+chunker = RecursiveChunker.from_recipe("markdown", lang="en")
+
+# Initialize the recursive chunker to chunk Hindi texts
+chunker = RecursiveChunker.from_recipe(lang="hi")
 ```
 
 ## Parameters

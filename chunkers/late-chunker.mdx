@@ -14,6 +14,10 @@ chunking.
 LateChunker requires the `sentence-transformers` library to be installed, and currently only supports SentenceTransformer models. 
 You can install it with:
 
+The LateChunker uses `RecursiveRules` to determine how to chunk the text. 
+The rules are a list of `RecursiveLevel` objects, which define the delimiters and whitespace rules for each level of the recursive tree.
+Find more information about the rules in the [Additional Information](#additional-information) section.
+
 ```bash
 pip install "chonkie[st]"
 ```
@@ -32,6 +36,19 @@ chunker = LateChunker(
     min_characters_per_chunk=24,
 )
 ```
+
+You can also initialize the LateChunker using a recipe. Recipes are pre-defined rules for common chunking tasks.
+Find all available recipes on our Hugging Face Hub [here](https://huggingface.co/datasets/chonkie-ai/recipes).
+```
+from chonkie import LateChunk
+
+# Initialize the late chunker to chunk Markdown
+chunker = LateChunker.from_recipe("markdown", lang="en")
+
+# Initialize the late chunker to chunk Hindi texts
+chunker = LateChunker.from_recipe(lang="hi")
+```
+
 
 ## Parameters
 
@@ -135,7 +152,7 @@ class RecursiveLevel:
     include_delim: Optional[Literal["prev", "next"]]  # Whether to include the delimiter at all, or in the previous chunk, or the next chunk.
 ```
 
-You can pass in custom rules to the RecursiveChunker, or use the default ones. 
+You can pass in custom rules to the LateChunker, or use the default ones. 
 Default rules are designed to be a good starting point for most documents, but you can customize them to your needs.
 
 <Info>`RecursiveLevel` expects the list of custom delimiters to **not** include whitespace.
