@@ -65,15 +65,7 @@
                                     "file": {
                                         "type": "string",
                                         "format": "binary",
-                                        "description": "The file containing text to be chunked. Use this OR the 'text' field."
-                                    },
-                                    "text": {
-                                        "anyOf": [
-                                            { "type": "string" },
-                                            { "items": { "type": "string" }, "type": "array" }
-                                        ],
-                                        "title": "Text",
-                                        "description": "The raw input text or list of texts to be chunked. Use this OR the 'file' field."
+                                        "description": "The file to chunk."
                                     },
                                     "tokenizer": {
                                         "type": "string",
@@ -139,15 +131,7 @@
                                     "file": {
                                         "type": "string",
                                         "format": "binary",
-                                        "description": "The file containing text to be chunked. Use this OR the 'text' field."
-                                    },
-                                    "text": {
-                                        "anyOf": [
-                                            { "type": "string" },
-                                            { "items": { "type": "string" }, "type": "array" }
-                                        ],
-                                        "title": "Text",
-                                        "description": "The raw input text or list of texts to be chunked. Use this OR the 'file' field."
+                                        "description": "The file to chunk."
                                     },
                                     "tokenizer_or_token_counter": {
                                         "type": "string",
@@ -249,15 +233,7 @@
                                     "file": {
                                         "type": "string",
                                         "format": "binary",
-                                        "description": "The file containing text to be chunked. Use this OR the 'text' field."
-                                    },
-                                    "text": {
-                                        "anyOf": [
-                                            { "type": "string" },
-                                            { "items": { "type": "string" }, "type": "array" }
-                                        ],
-                                        "title": "Text",
-                                        "description": "The raw input text or list of texts to be chunked. Use this OR the 'file' field."
+                                        "description": "The file to chunk."
                                     },
                                     "tokenizer_or_token_counter": {
                                         "type": "string",
@@ -335,15 +311,7 @@
                                     "file": {
                                         "type": "string",
                                         "format": "binary",
-                                        "description": "The file containing text to be chunked. Use this OR the 'text' field."
-                                    },
-                                    "text": {
-                                        "anyOf": [
-                                            { "type": "string" },
-                                            { "items": { "type": "string" }, "type": "array" }
-                                        ],
-                                        "title": "Text",
-                                        "description": "The raw input text or list of texts to be chunked. Use this OR the 'file' field."
+                                        "description": "The file to chunk."
                                     },
                                     "embedding_model": {
                                         "type": "string",
@@ -461,15 +429,7 @@
                                     "file": {
                                         "type": "string",
                                         "format": "binary",
-                                        "description": "The file containing text to be chunked. Use this OR the 'text' field."
-                                    },
-                                    "text": {
-                                        "anyOf": [
-                                            { "type": "string" },
-                                            { "items": { "type": "string" }, "type": "array" }
-                                        ],
-                                        "title": "Text",
-                                        "description": "The raw input text or list of texts to be chunked. Use this OR the 'file' field."
+                                        "description": "The file to chunk."
                                     },
                                     "embedding_model": {
                                         "type": "string",
@@ -584,15 +544,7 @@
                                     "file": {
                                         "type": "string",
                                         "format": "binary",
-                                        "description": "The file containing text to be chunked. Use this OR the 'text' field."
-                                    },
-                                    "text": {
-                                        "anyOf": [
-                                            { "type": "string" },
-                                            { "items": { "type": "string" }, "type": "array" }
-                                        ],
-                                        "title": "Text",
-                                        "description": "The raw input text or list of texts to be chunked. Use this OR the 'file' field."
+                                        "description": "The file to chunk."
                                     },
                                     "embedding_model": {
                                         "type": "string",
@@ -666,15 +618,7 @@
                                     "file": {
                                         "type": "string",
                                         "format": "binary",
-                                        "description": "The file containing code to be chunked. Use this OR the 'text' field."
-                                    },
-                                    "text": {
-                                        "anyOf": [
-                                            { "type": "string" },
-                                            { "items": { "type": "string" }, "type": "array" }
-                                        ],
-                                        "title": "Text",
-                                        "description": "The raw input code text or list of texts to be chunked. Use this OR the 'file' field."
+                                        "description": "The file containing code to be chunked."
                                     },
                                     "tokenizer_or_token_counter": {
                                         "type": "string",
