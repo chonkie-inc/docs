@@ -1,0 +1,74 @@
+{
+    "post": {
+        "summary": "Code Chunker",
+        "description": "Splits code into chunks based on its structure, leveraging Abstract Syntax Trees (ASTs) to create contextually relevant segments.",
+        "operationId": "get_code_chunks_v1_chunk_code_post",
+        "requestBody": {
+            "required": true,
+            "content": {
+                "multipart/form-data": {
+                    "schema": {
+                        "type": "object",
+                        "required": [
+                            "language"
+                        ],
+                        "properties": {
+                            "file": {
+                                "type": "string",
+                                "format": "binary",
+                                "description": "The file containing code to be chunked."
+                            },
+                            "tokenizer_or_token_counter": {
+                                "type": "string",
+                                "title": "Tokenizer Or Token Counter",
+                                "default": "gpt2",
+                                "description": "Tokenizer or token counting function to use for measuring chunk size."
+                            },
+                            "chunk_size": {
+                                "type": "integer",
+                                "title": "Chunk Size",
+                                "default": 512,
+                                "description": "Maximum number of tokens per chunk."
+                            },
+                            "language": {
+                                "type": "string",
+                                "title": "Language",
+                                "description": "The programming language of the code. Accepts languages supported by `tree-sitter-language-pack`."
+                            },
+                            "include_nodes": {
+                                "type": "boolean",
+                                "title": "Include Nodes",
+                                "default": false,
+                                "description": "Whether to include the list of corresponding AST `Node` objects within each `CodeChunk`."
+                            },
+                            "return_type": {
+                                "type": "string",
+                                "title": "Return Type",
+                                "default": "chunks",
+                                "enum": [ "texts", "chunks" ],
+                                "description": "Whether to return chunks as `CodeChunk` objects or plain text strings."
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Successful Response: A list of `CodeChunk` objects.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "title": "CodeChunkResponse",
+                            "type": "array",
+                            "items": {
+                                "$ref": "../schemas.json#/schemas/CodeChunkSchema"
+                            },
+                            "description": "A list containing `CodeChunk` objects, each detailing a segment of the original code and optionally the corresponding AST nodes."
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,102 @@
+{
+    "post": {
+        "summary": "Sentence Chunker",
+        "description": "Splits text into chunks while preserving complete sentences, ensuring that each chunk maintains proper sentence boundaries and context.",
+        "operationId": "get_sentence_chunks_v1_chunk_sentence_post",
+        "requestBody": {
+            "required": true,
+            "content": {
+                "multipart/form-data": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "file": {
+                                "type": "string",
+                                "format": "binary",
+                                "description": "The file to chunk."
+                            },
+                            "tokenizer_or_token_counter": {
+                                "type": "string",
+                                "title": "Tokenizer Or Token Counter",
+                                "default": "gpt2",
+                                "description": "Tokenizer or token counting function to use. Can be a string identifier or an instance."
+                            },
+                            "chunk_size": {
+                                "type": "integer",
+                                "title": "Chunk Size",
+                                "default": 512,
+                                "description": "Maximum number of tokens per chunk."
+                            },
+                            "chunk_overlap": {
+                                "type": "integer",
+                                "title": "Chunk Overlap",
+                                "default": 0,
+                                "description": "Number of overlapping tokens between chunks."
+                            },
+                            "min_sentences_per_chunk": {
+                                "type": "integer",
+                                "title": "Min Sentences Per Chunk",
+                                "default": 1,
+                                "description": "Minimum number of sentences to include in each chunk."
+                            },
+                            "min_characters_per_sentence": {
+                                "type": "integer",
+                                "title": "Min Characters Per Sentence",
+                                "default": 12,
+                                "description": "Minimum number of characters per sentence."
+                            },
+                            "approximate": {
+                                "type": "boolean",
+                                "title": "Approximate",
+                                "default": false,
+                                "description": "Use approximate token counting for faster processing (deprecated)."
+                            },
+                            "delim": {
+                                "anyOf": [
+                                    { "type": "string" },
+                                    { "items": { "type": "string" }, "type": "array" }
+                                ],
+                                "title": "Delim",
+                                "default": [ ".", "!", "?", "\n" ],
+                                "description": "Delimiters to split sentences on."
+                            },
+                            "include_delim": {
+                                "anyOf": [
+                                    { "type": "string", "enum": [ "prev", "next" ] },
+                                    { "type": "null" }
+                                ],
+                                "title": "Include Delim",
+                                "default": "prev",
+                                "description": "Include delimiters in the chunk text. If so, specify whether to include the previous or next delimiter."
+                            },
+                            "return_type": {
+                                "type": "string",
+                                "title": "Return Type",
+                                "default": "chunks",
+                                "enum": [ "texts", "chunks" ],
+                                "description": "Whether to return chunks as text strings or as `SentenceChunk` objects."
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Successful Response: A list of `SentenceChunk` objects.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "title": "SentenceChunkResponse",
+                            "type": "array",
+                            "items": {
+                                "$ref": "../schemas.json#/schemas/SentenceChunkSchema"
+                            },
+                            "description": "A list containing `SentenceChunk` objects, each detailing a segment of the original text and the sentences within it."
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

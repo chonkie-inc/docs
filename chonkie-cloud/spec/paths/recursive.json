@@ -1,0 +1,78 @@
+{
+    "post": {
+        "summary": "Recursive Chunker",
+        "description": "Recursively chunks documents into smaller chunks. It is a good choice for documents that are long but well structured.",
+        "operationId": "get_recursive_chunks_v1_chunk_recursive_post",
+        "requestBody": {
+            "required": true,
+            "content": {
+                "multipart/form-data": {
+                    "schema": {
+                        "type": "object",
+                        "properties": {
+                            "file": {
+                                "type": "string",
+                                "format": "binary",
+                                "description": "The file to chunk."
+                            },
+                            "tokenizer_or_token_counter": {
+                                "type": "string",
+                                "title": "Tokenizer Or Token Counter",
+                                "default": "gpt2",
+                                "description": "Tokenizer or token counting function to use. Can be a string identifier or an instance."
+                            },
+                            "chunk_size": {
+                                "type": "integer",
+                                "title": "Chunk Size",
+                                "default": 512,
+                                "description": "Maximum number of tokens per chunk."
+                            },
+                            "recipe": {
+                                "type": "string",
+                                "title": "Recipe",
+                                "default": "default",
+                                "description": "Pre-defined rules for chunking. Find all recipes on our [Hugging Face Hub](https://huggingface.co/datasets/chonkie-ai/recipes)."
+                            },
+                            "lang": {
+                                "type": "string",
+                                "title": "Language",
+                                "default": "en",
+                                "description": "Language of the text, used with recipes. Must match the language of the recipe."
+                            },
+                            "min_characters_per_chunk": {
+                                "type": "integer",
+                                "title": "Min Characters Per Chunk",
+                                "default": 12,
+                                "description": "Minimum number of characters per chunk."
+                            },
+                            "return_type": {
+                                "type": "string",
+                                "title": "Return Type",
+                                "default": "chunks",
+                                "enum": [ "texts", "chunks" ],
+                                "description": "Whether to return chunks as text strings or as `RecursiveChunk` objects."
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "responses": {
+            "200": {
+                "description": "Successful Response: A list of `RecursiveChunk` objects.",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "title": "RecursiveChunkResponse",
+                            "type": "array",
+                            "items": {
+                                "$ref": "../schemas.json#/schemas/RecursiveChunkSchema"
+                            },
+                            "description": "A list containing `RecursiveChunk` objects, each detailing a segment of the original text and its level in the recursive tree."
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
