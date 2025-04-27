@@ -27,7 +27,7 @@
                             "chunk_size": {
                                 "type": "integer",
                                 "title": "Chunk Size",
-                                "default": 512,
+                                "default": 1500,
                                 "description": "Maximum number of tokens per chunk."
                             },
                             "language": {
