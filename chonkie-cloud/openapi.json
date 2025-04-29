@@ -882,12 +882,6 @@
                                             "chunks"
                                         ],
                                         "description": "Whether to return chunks as `Chunk` objects or plain text strings."
-                                    },
-                                    "verbose": {
-                                        "type": "boolean",
-                                        "title": "Verbose",
-                                        "default": false,
-                                        "description": "If true, may include additional metadata or logging (behavior API-dependent)."
                                     }
                                 }
                             }
