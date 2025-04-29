@@ -171,19 +171,25 @@ batch_chunks = chunker(["Text 1...", "Text 2..."])
 
 ## Return Type
 
-SlumberChunker returns chunks as `SlumberChunk` objects, potentially with extra metadata from Genie:
+SlumberChunker returns chunks as `Chunk` objects, potentially with extra metadata attached depending on the configuration and Genie's output.
 
 ```python
 from dataclasses import dataclass
-from chonkie.chunkers.base import Chunk # Assuming base Chunk structure
+from typing import Optional
+
+# Definition similar to TokenChunker's return type
+@dataclass
+class Context:
+    text: str
+    token_count: int
+    start_index: Optional[int] = None
+    end_index: Optional[int] = None
 
 @dataclass
-class SlumberChunk(Chunk):
+class Chunk:
     text: str           # The chunk text
     start_index: int    # Starting position in original text
     end_index: int      # Ending position in original text
     token_count: int    # Number of tokens in chunk
-    # Example extra field:
-    genie_rationale: Optional[str] = None # Why Genie made this split (if verbose)
-    # Add any other specific fields provided by Genie
+    context: Optional[Context] = None # Contextual information if any
 ```

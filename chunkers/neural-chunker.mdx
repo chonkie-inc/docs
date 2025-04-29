@@ -119,17 +119,25 @@ batch_chunks = chunker(["Text 1...", "Text 2..."])
 
 ## Return Type
 
-NeuralChunker returns chunks as `NeuralChunk` objects:
+NeuralChunker returns chunks as `Chunk` objects.
 
 ```python
 from dataclasses import dataclass
-from chonkie.chunkers.base import Chunk # Assuming base Chunk structure
+from typing import Optional
+
+# Definition similar to TokenChunker's return type
+@dataclass
+class Context:
+    text: str
+    token_count: int
+    start_index: Optional[int] = None
+    end_index: Optional[int] = None
 
 @dataclass
-class NeuralChunk(Chunk):
+class Chunk:
     text: str           # The chunk text
     start_index: int    # Starting position in original text
     end_index: int      # Ending position in original text
-    token_count: Optional[int] = None # Token count might require separate calculation
-    # Add any other specific fields if needed
+    token_count: int    # Number of tokens in chunk (calculated based on the tokenizer used)
+    context: Optional[Context] = None # Contextual information (if any)
 ```
