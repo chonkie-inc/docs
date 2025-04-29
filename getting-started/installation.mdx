@@ -23,20 +23,38 @@ Chonkie provides several installation options to match your specific needs:
 # Basic installation (TokenChunker, SentenceChunker, RecursiveChunker)
 pip install chonkie
 
-# For the default semantic provider support
+# For Hugging Face Hub support
+pip install "chonkie[hub]"
+
+# For visualization support (e.g., rich text output)
+pip install "chonkie[viz]"
+
+# For the default semantic provider support (includes Model2Vec)
 pip install "chonkie[semantic]"
 
 # For OpenAI embeddings support
 pip install "chonkie[openai]"
 
-# For SentenceTransformer embeddings support
+# For Cohere embeddings support
+pip install "chonkie[cohere]"
+
+# For Jina embeddings support
+pip install "chonkie[jina]"
+
+# For SentenceTransformer embeddings support (required by LateChunker)
 pip install "chonkie[st]"
 
 # For CodeChunker support
 pip install "chonkie[code]"
 
+# For NeuralChunker support (BERT-based)
+pip install "chonkie[neural]"
+
+# For SlumberChunker support (Genie/LLM interface)
+pip install "chonkie[genie]"
+
 # For installing multiple features together
-pip install "chonkie[st, model2vec]"
+pip install "chonkie[st, code, genie]"
 
 # For all features
 pip install "chonkie[all]"
@@ -46,43 +64,50 @@ pip install "chonkie[all]"
 
 The following table shows which chunkers are available with different installation options:
 
-| Chunker | Default | embeddings | 'code' | 'all' |
-|-------|:-------:|:----------:|:------:|:-------:|
-| TokenChunker | ✅ | ✅ | ✅ |  ✅ |
-| RecursiveChunker | ✅ | ✅ | ✅ |  ✅ |
-| SentenceChunker | ✅ |  ✅ | ✅ | ✅ |
-| SemanticChunker | ❌ |  ✅ | ❌ | ✅ |
-| SDPMChunker | ❌ | ✅ | ❌ | ✅ |
-| LateChunker | ❌ | ✅ | ❌ | ✅ |
-| CodeChunker | ❌ | ❌ | ✅ | ✅ |
+| Chunker         | Default | embeddings | 'all' |
+|-----------------|:-------:|:----------:|:-----:|
+| TokenChunker    | ✅      | ✅         | ✅    |
+| RecursiveChunker| ✅      | ✅         | ✅    |
+| SentenceChunker | ✅      | ✅         | ✅    |
+| SemanticChunker | ❌      | ✅         | ❌    |
+| SDPMChunker     | ❌      | ✅         | ❌    |
+| LateChunker     | ❌      | ✅         | ❌    |
+| CodeChunker     | ❌      | ❌         | ✅    |
+| NeuralChunker   | ❌      | ✅         | ✅    |
+| SlumberChunker  | ❌      | ✅         | ✅    |
 
-Any of the embeddings availability will enable the `SemanticChunker` and `SDPMChunker`. You can use the `chonkie[semantic]` install for quick access to these features.
-However, `LateChunker` requires the `sentence-transformers` library to be installed, and currently only supports SentenceTransformer models. You can install it with `pip install "chonkie[st]"`.
-`CodeChunker` requires the `tree-sitter` and `tree-sitter-language-pack` libraries. You can install it with `pip install "chonkie[code]"`.
 
 ## Embeddings Availability
 
 Different embedding providers are available with different installation options:
 
-| Embeddings Provider | Default | 'model2vec' | 'st' | 'openai' | 'semantic'| 'all' |
-|------------------|:-------:|:-----------:|:------:|:-------:|:--------:|:-------:|
-| Model2VecEmbeddings | ❌| ✅ | ❌ | ❌ | ✅ | ✅ |
-| SentenceTransformerEmbeddings | ❌ | ❌| ✅ | ❌ | ❌ | ✅|
-| OpenAIEmbeddings | ❌ | ❌ | ❌ | ✅ | ❌ | ✅|
+| Embeddings Provider           | Default | 'model2vec' | 'st' | 'openai' | 'semantic'| 'all' |
+|-------------------------------|:-------:|:-----------:|:----:|:--------:|:---------:|:-----:|
+| Model2VecEmbeddings           | ❌      | ✅          | ❌   | ❌       | ✅        | ✅    |
+| SentenceTransformerEmbeddings | ❌      | ❌          | ✅   | ❌       | ❌        | ✅    |
+| OpenAIEmbeddings              | ❌      | ❌          | ❌   | ✅       | ❌        | ✅    |
 
 ## Dependencies
 
 Here's what each installation option adds:
 
-| Installation Option | Additional Dependencies |
-|------------------|------------------------|
-| Default | autotiktokenizer |
-| 'model2vec' | + model2vec, numpy |
-| 'st' | + sentence-transformers, numpy |
-| 'openai' | + openai, tiktoken |
-| 'semantic' | + model2vec, numpy |
-| 'code' | + tree-sitter, tree-sitter-language-pack |
-| 'all' | all above dependencies |
+| Installation Option | Additional Dependencies                                     |
+|---------------------|-------------------------------------------------------------|
+| Default             | autotiktokenizer                                            |
+| 'hub'               | + huggingface-hub, jsonschema                               |
+| 'viz'               | + rich                                                      |
+| 'model2vec'         | + model2vec, numpy                                          |
+| 'st'                | + sentence-transformers, numpy, accelerate                  |
+| 'openai'            | + openai, tiktoken, numpy                                   |
+| 'cohere'            | + cohere, numpy                                             |
+| 'jina'              | + numpy                                                     |
+| 'semantic'          | + model2vec, numpy                                          |
+| 'code'              | + tree-sitter, tree-sitter-language-pack, magika            |
+| 'neural'            | + transformers, torch (or tensorflow/flax), sentencepiece   |
+| 'genie'             | + pydantic, google-genai                                    |
+| 'all'               | all above dependencies                                      |
+
+*(Note: Specific dependencies for `[genie]` might vary slightly based on implementation details and chosen models/APIs.)*
 
 ## Important Notes
 

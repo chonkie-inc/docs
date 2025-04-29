@@ -34,7 +34,9 @@
               "chunkers/code-chunker",
               "chunkers/semantic-chunker",
               "chunkers/sdpm-chunker",
-              "chunkers/late-chunker"
+              "chunkers/late-chunker",
+              "chunkers/neural-chunker",
+              "chunkers/slumber-chunker"
             ]
           },
           {

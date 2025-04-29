@@ -570,11 +570,22 @@
                                         ],
                                         "description": "Delimiters to split sentences on."
                                     },
-                                    "skip_window": {
-                                        "type": "integer",
-                                        "title": "Skip Window",
-                                        "default": 1,
-                                        "description": "Number of chunks to skip when looking for similarities in the second pass."
+                                    "include_delim": {
+                                        "anyOf": [
+                                            {
+                                                "type": "string",
+                                                "enum": [
+                                                    "prev",
+                                                    "next"
+                                                ]
+                                            },
+                                            {
+                                                "type": "null"
+                                            }
+                                        ],
+                                        "title": "Include Delim",
+                                        "default": "prev",
+                                        "description": "Include delimiters in the chunk text. If so, specify whether to include the previous or next delimiter."
                                     },
                                     "return_type": {
                                         "type": "string",
@@ -751,6 +762,150 @@
                                         "$ref": "#/components/schemas/CodeChunkSchema"
                                     },
                                     "description": "A list containing `CodeChunk` objects, each detailing a segment of the original code and optionally the corresponding AST nodes."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/chunk/neural": {
+            "post": {
+                "summary": "Neural Chunker",
+                "description": "Splits text using a fine-tuned BERT model to detect semantic shifts, creating topic-coherent chunks.",
+                "operationId": "get_neural_chunks_v1_chunk_neural_post",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The file to chunk."
+                                    },
+                                    "model": {
+                                        "type": "string",
+                                        "title": "Model",
+                                        "default": "mirth/chonky_modernbert_large_1",
+                                        "description": "The identifier of the fine-tuned BERT model to use."
+                                    },
+                                    "min_characters_per_chunk": {
+                                        "type": "integer",
+                                        "title": "Min Characters Per Chunk",
+                                        "default": 10,
+                                        "description": "Minimum number of characters required for a valid chunk."
+                                    },
+                                    "return_type": {
+                                        "type": "string",
+                                        "title": "Return Type",
+                                        "default": "chunks",
+                                        "enum": [
+                                            "texts",
+                                            "chunks"
+                                        ],
+                                        "description": "Whether to return chunks as `Chunk` objects or plain text strings."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response: A list of `Chunk` objects.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "NeuralChunkResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chunk"
+                                    },
+                                    "description": "A list containing `Chunk` objects, representing segments split based on semantic shifts detected by the neural model."
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/chunk/slumber": {
+            "post": {
+                "summary": "Slumber Chunker",
+                "description": "Agentic chunking powered by generative models (via Genie interface) for intelligent text splitting.",
+                "operationId": "get_slumber_chunks_v1_chunk_slumber_post",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary",
+                                        "description": "The file to chunk."
+                                    },
+                                    "tokenizer_or_token_counter": {
+                                        "type": "string",
+                                        "title": "Tokenizer Or Token Counter",
+                                        "default": "gpt2",
+                                        "description": "Tokenizer used for initial splitting and size estimation."
+                                    },
+                                    "chunk_size": {
+                                        "type": "integer",
+                                        "title": "Chunk Size",
+                                        "default": 1024,
+                                        "description": "Target maximum tokens per chunk for the generative model."
+                                    },
+                                    "candidate_size": {
+                                        "type": "integer",
+                                        "title": "Candidate Size",
+                                        "default": 32,
+                                        "description": "Number of tokens around a potential split point examined by the generative model."
+                                    },
+                                    "min_characters_per_chunk": {
+                                        "type": "integer",
+                                        "title": "Min Characters Per Chunk",
+                                        "default": 12,
+                                        "description": "Minimum number of characters required for a valid chunk."
+                                    },
+                                    "return_type": {
+                                        "type": "string",
+                                        "title": "Return Type",
+                                        "default": "chunks",
+                                        "enum": [
+                                            "texts",
+                                            "chunks"
+                                        ],
+                                        "description": "Whether to return chunks as `Chunk` objects or plain text strings."
+                                    },
+                                    "verbose": {
+                                        "type": "boolean",
+                                        "title": "Verbose",
+                                        "default": false,
+                                        "description": "If true, may include additional metadata or logging (behavior API-dependent)."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response: A list of `Chunk` objects.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "SlumberChunkResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chunk"
+                                    },
+                                    "description": "A list containing `Chunk` objects, representing segments intelligently split by the agentic chunker."
                                 }
                             }
                         }
