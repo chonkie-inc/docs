@@ -39,20 +39,19 @@ pip install "chonkie[genie]"
 
 ```python
 from chonkie import SlumberChunker
-from chonkie.genie import AutoGenie # Example: Using AutoGenie to load a model
+from chonkie.genie import GeminiGenie
 
-# Initialize Genie (e.g., configure for Gemini)
-# Make sure you have the necessary API keys set as environment variables!
-genie = AutoGenie.get_genie("gemini/gemini-1.5-flash")
+# Optional: Initialize Genie
+genie = GeminiGenie("gemini-2.5-flash-preview-04-17")
 
 # Basic initialization
 chunker = SlumberChunker(
-    genie=genie,
-    tokenizer_or_token_counter="gpt2",
-    chunk_size=1024,
-    candidate_size=128, # How many tokens Genie looks at for potential splits
-    min_characters_per_chunk=24,
-    verbose=True # See what Genie is thinking!
+    genie=genie,                        # Genie interface to use
+    tokenizer_or_token_counter="gpt2",  # Tokenizer or token counter to use
+    chunk_size=1024,                    # Maximum chunk size
+    candidate_size=128,                 # How many tokens Genie looks at for potential splits
+    min_characters_per_chunk=24,        # Minimum number of characters per chunk
+    verbose=True                        # See the progress bar for the chunking process
 )
 
 # You can also rely on default Genie setup if configured globally
@@ -66,7 +65,7 @@ chunker = SlumberChunker(
     type="Optional[BaseGenie]"
     default="None"
 >
-    An instance of a Genie interface (e.g., `GeminiGenie`, `OpenAIGenie`). If `None`, tries to load a default Genie configuration. Required for operation.
+    An instance of a Genie interface (e.g., `GeminiGenie`). If `None`, tries to load a default Genie configuration, which is `GeminiGenie("gemini-2.5-pro-preview-03-25")`
 </ParamField>
 
 <ParamField
