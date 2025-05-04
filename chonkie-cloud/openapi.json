@@ -906,6 +906,94 @@
                     }
                 }
             }
+        },
+        "/v1/refine/embeddings": {
+            "post": {
+                "summary": "Embeddings Refinery",
+                "description": "Adds embeddings to a list of provided chunks using a specified embedding model.",
+                "operationId": "refine_embeddings_v1_refine_embeddings_post",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmbeddingsRefineryREQ"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response: A list of `Chunk` objects with added embeddings.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "EmbeddingsRefineResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/ChunkWithEmbedding"
+                                    },
+                                    "description": "A list containing `Chunk` objects, each with an added `embedding` field."
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/refine/overlap": {
+            "post": {
+                "summary": "Overlap Refinery",
+                "description": "Adds overlapping context (prefix or suffix) to a list of provided chunks based on specified arguments.",
+                "operationId": "refine_overlap_v1_refine_overlap_post",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/OverlapRefineryREQ"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response: A list of `Chunk` objects with added overlap context.",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "title": "OverlapRefineResponse",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Chunk"
+                                    },
+                                    "description": "A list containing `Chunk` objects, potentially modified to include overlapping text or context."
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -941,6 +1029,14 @@
                         "type": "integer",
                         "title": "Token Count",
                         "description": "The number of tokens in this specific chunk, according to the tokenizer used."
+                    },
+                    "context": {
+                        "type": [
+                            "string",
+                            "null"
+                        ],
+                        "title": "Context",
+                        "description": "Chunk context."
                     }
                 }
             },
@@ -1159,6 +1255,32 @@
                     }
                 }
             },
+            "ChunkWithEmbedding": {
+                "title": "ChunkWithEmbedding",
+                "description": "Represents a text chunk including an embedding vector.",
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Chunk"
+                    },
+                    {
+                        "type": "object",
+                        "properties": {
+                            "embedding": {
+                                "type": [
+                                    "array",
+                                    "null"
+                                ],
+                                "items": {
+                                    "type": "number",
+                                    "format": "float"
+                                },
+                                "title": "Embedding",
+                                "description": "Embedding vector (list of floats) for the chunk."
+                            }
+                        }
+                    }
+                ]
+            },
             "NodeSchema": {
                 "title": "Node",
                 "description": "Represents a node in the Abstract Syntax Tree (AST) of the code, used by CodeChunker.",
@@ -1221,6 +1343,89 @@
                         },
                         "title": "Nodes",
                         "description": "Optional list of AST `Node` objects corresponding to this code chunk (present if `include_nodes` is true)."
+                    }
+                }
+            },
+            "EmbeddingsRefineryREQ": {
+                "title": "EmbeddingsRefineryREQ",
+                "description": "Request body for the Embeddings Refinery endpoint.",
+                "type": "object",
+                "required": [
+                    "chunks",
+                    "embedding_model"
+                ],
+                "properties": {
+                    "chunks": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Chunk"
+                        },
+                        "title": "Chunks",
+                        "description": "A list of `Chunk` objects (as dictionaries) to add embeddings to."
+                    },
+                    "embedding_model": {
+                        "type": "string",
+                        "title": "Embedding Model",
+                        "description": "Model identifier (e.g., from Hugging Face) or a compatible embedding model instance string representation."
+                    }
+                }
+            },
+            "OverlapRefineryREQ": {
+                "title": "OverlapRefineryREQ",
+                "description": "Request body for the Overlap Refinery endpoint.",
+                "type": "object",
+                "required": [
+                    "chunks"
+                ],
+                "properties": {
+                    "chunks": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Chunk"
+                        },
+                        "title": "Chunks",
+                        "description": "A list of `Chunk` objects (as dictionaries) to refine with overlap."
+                    },
+                    "tokenizer_or_token_counter": {
+                        "type": "string",
+                        "title": "Tokenizer Or Token Counter",
+                        "default": "character",
+                        "description": "Tokenizer identifier (e.g., 'gpt2') or 'character' for character counting."
+                    },
+                    "context_size": {
+                        "anyOf": [
+                            { "type": "number" },
+                            { "type": "integer" }
+                        ],
+                        "title": "Context Size",
+                        "default": 0.25,
+                        "description": "Size of the overlap context (absolute tokens if int, fraction if float)."
+                    },
+                    "mode": {
+                        "type": "string",
+                        "enum": ["token", "recursive"],
+                        "title": "Mode",
+                        "default": "token",
+                        "description": "Mode for calculating overlap ('token' or 'recursive')."
+                    },
+                    "method": {
+                        "type": "string",
+                        "enum": ["suffix", "prefix"],
+                        "title": "Method",
+                        "default": "suffix",
+                        "description": "Method for adding context ('suffix' from next, 'prefix' from previous)."
+                    },
+                    "rules": {
+                        "type": "object",
+                        "title": "Rules",
+                        "default": {},
+                        "description": "Recursive rules definition (object representation) if mode is 'recursive'."
+                    },
+                    "merge": {
+                        "type": "boolean",
+                        "title": "Merge",
+                        "default": true,
+                        "description": "If true, merge context into chunk text; otherwise, store in 'context' field."
                     }
                 }
             },
