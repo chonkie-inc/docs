@@ -27,8 +27,8 @@ from chonkie import NeuralChunker
 
 # Basic initialization with default parameters
 chunker = NeuralChunker(
-    model="mirth/chonky_modernbert_base_1", # Default model
-    device="cpu",                            # Device to run the model on ('cpu', 'cuda', etc.)
+    model="mirth/chonky_modernbert_base_1",  # Default model
+    device_map="cpu",                        # Device to run the model on ('cpu', 'cuda', etc.)
     min_characters_per_chunk=10,             # Minimum characters for a chunk
     return_type="chunks"                     # Output type
 )
@@ -36,7 +36,7 @@ chunker = NeuralChunker(
 # Specify a different model or device
 chunker = NeuralChunker(
     model="path/to/your/model",
-    device="cuda:0" # Use GPU if available
+    device_map="cuda:0" # Use GPU if available
 )
 ```
 
@@ -51,7 +51,7 @@ chunker = NeuralChunker(
 </ParamField>
 
 <ParamField
-    path="device"
+    path="device_map"
     type="str"
     default="cpu"
 >
