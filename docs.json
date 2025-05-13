@@ -11,51 +11,51 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Documentation",
+        "tab": "Python SDK",
         "icon": "book",
         "groups": [
           {
             "group": "Getting Started",
             "pages": [
-              "getting-started/introduction",
-              "getting-started/installation",
-              "getting-started/concepts",
-              "chonkie-cloud/overview",
-              "getting-started/pricing"
+              "python-sdk/getting-started/introduction",
+              "python-sdk/getting-started/installation",
+              "python-sdk/getting-started/concepts",
+              "python-sdk/chonkie-cloud/overview",
+              "python-sdk/getting-started/pricing"
             ]
           },
           {
             "group": "Chunkers",
             "pages": [
-              "chunkers/overview",
-              "chunkers/token-chunker",
-              "chunkers/sentence-chunker",
-              "chunkers/recursive-chunker",
-              "chunkers/code-chunker",
-              "chunkers/semantic-chunker",
-              "chunkers/sdpm-chunker",
-              "chunkers/late-chunker",
-              "chunkers/neural-chunker",
-              "chunkers/slumber-chunker"
+              "python-sdk/chunkers/overview",
+              "python-sdk/chunkers/token-chunker",
+              "python-sdk/chunkers/sentence-chunker",
+              "python-sdk/chunkers/recursive-chunker",
+              "python-sdk/chunkers/code-chunker",
+              "python-sdk/chunkers/semantic-chunker",
+              "python-sdk/chunkers/sdpm-chunker",
+              "python-sdk/chunkers/late-chunker",
+              "python-sdk/chunkers/neural-chunker",
+              "python-sdk/chunkers/slumber-chunker"
             ]
           },
           {
             "group": "Embeddings",
             "pages": [
-              "embeddings/overview",
-              "embeddings/auto-embeddings",
-              "embeddings/sentence-transformer-embeddings",
-              "embeddings/openai-embeddings",
-              "embeddings/model2vec-embeddings",
-              "embeddings/custom-embeddings"
+              "python-sdk/embeddings/overview",
+              "python-sdk/embeddings/auto-embeddings",
+              "python-sdk/embeddings/sentence-transformer-embeddings",
+              "python-sdk/embeddings/openai-embeddings",
+              "python-sdk/embeddings/model2vec-embeddings",
+              "python-sdk/embeddings/custom-embeddings"
             ]
           },
           {
             "group": "Refinery",
             "pages": [
-              "refinery/overview",
-              "refinery/overlap-refinery",
-              "refinery/embeddings-refinery"
+              "python-sdk/refinery/overview",
+              "python-sdk/refinery/overlap-refinery",
+              "python-sdk/refinery/embeddings-refinery"
             ]
           },
           {
@@ -68,8 +68,29 @@
         ]
       },
       {
+        "tab": "Typescript SDK",
+        "icon": "book",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "typescript-sdk/getting-started/introduction" 
+            ]
+          },
+          {
+            "group": "Chunkers",
+            "pages": [
+              "typescript-sdk/chunkers/overview",
+              "typescript-sdk/chunkers/token-chunker",
+              "typescript-sdk/chunkers/sentence-chunker", 
+              "typescript-sdk/chunkers/recursive-chunker"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "Chonkie API",
-        "openapi": "/chonkie-cloud/openapi.json"
+        "openapi": "python-sdk/chonkie-cloud/openapi.json"
       },
       {
         "tab": "Changelog",
