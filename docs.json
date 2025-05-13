@@ -80,6 +80,10 @@
           {
             "group": "Chunkers",
             "pages": [
+              "typescript-sdk/chunkers/overview",
+              "typescript-sdk/chunkers/token-chunker",
+              "typescript-sdk/chunkers/sentence-chunker", 
+              "typescript-sdk/chunkers/recursive-chunker"
             ]
           }
         ]
