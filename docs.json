@@ -61,8 +61,8 @@
           {
             "group": "Utils",
             "pages": [
-              "utils/visualizer",
-              "utils/hubbie"
+              "python-sdk/utils/visualizer",
+              "python-sdk/utils/hubbie"
             ]
           }
         ]
