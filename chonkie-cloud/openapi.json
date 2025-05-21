@@ -1233,14 +1233,6 @@
                         "title": "Token Count",
                         "description": "The number of tokens in this specific chunk, according to the tokenizer used."
                     },
-                    "sentences": {
-                        "type": "array",
-                        "items": {
-                            "$ref": "#/components/schemas/SentenceSchema"
-                        },
-                        "title": "Sentences",
-                        "description": "List of standard `Sentence` objects contained within this chunk."
-                    },
                     "embedding": {
                         "type": [
                             "array",
