@@ -17,11 +17,11 @@
           {
             "group": "Getting Started",
             "pages": [
-              "getting-started/introduction",
-              "getting-started/installation",
-              "getting-started/concepts",
-              "getting-started/overview",
-              "getting-started/pricing"
+              "python-sdk/getting-started/introduction",
+              "python-sdk/getting-started/installation",
+              "python-sdk/getting-started/concepts",
+              "chonkie-cloud/cloud-overview",
+              "python-sdk/getting-started/pricing"
             ]
           },
           {
@@ -59,6 +59,15 @@
             ]
           },
           {
+            "group": "Handshakes",
+            "pages": [
+              "python-sdk/handshakes/overview",
+              "python-sdk/handshakes/chroma-handshake",
+              "python-sdk/handshakes/qdrant-handshake",
+              "python-sdk/handshakes/tubropuffer-handshake"
+            ]
+          },
+          {
             "group": "Utils",
             "pages": [
               "python-sdk/utils/visualizer",
@@ -83,7 +92,8 @@
               "typescript-sdk/chunkers/overview",
               "typescript-sdk/chunkers/token-chunker",
               "typescript-sdk/chunkers/sentence-chunker", 
-              "typescript-sdk/chunkers/recursive-chunker"
+              "typescript-sdk/chunkers/recursive-chunker",
+              "typescript-sdk/chunkers/code-chunker"
             ]
           }
         ]
