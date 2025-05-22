@@ -17,11 +17,11 @@
           {
             "group": "Getting Started",
             "pages": [
-              "python-sdk/getting-started/introduction",
-              "python-sdk/getting-started/installation",
-              "python-sdk/getting-started/concepts",
-              "python-sdk/chonkie-cloud/overview",
-              "python-sdk/getting-started/pricing"
+              "getting-started/introduction",
+              "getting-started/installation",
+              "getting-started/concepts",
+              "getting-started/overview",
+              "getting-started/pricing"
             ]
           },
           {
@@ -90,7 +90,7 @@
       },
       {
         "tab": "Chonkie API",
-        "openapi": "python-sdk/chonkie-cloud/openapi.json"
+        "openapi": "chonkie-cloud/openapi.json"
       },
       {
         "tab": "Changelog",
