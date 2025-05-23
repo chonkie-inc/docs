@@ -19,9 +19,9 @@
             "pages": [
               "python-sdk/getting-started/introduction",
               "python-sdk/getting-started/installation",
-              "python-sdk/getting-started/concepts",
-              "chonkie-cloud/cloud-overview",
-              "python-sdk/getting-started/pricing"
+              "common/concepts",
+              "common/cloud-overview",
+              "common/pricing"
             ]
           },
           {
@@ -83,7 +83,10 @@
           {
             "group": "Getting Started",
             "pages": [
-              "typescript-sdk/getting-started/introduction" 
+              "typescript-sdk/getting-started/introduction", 
+              "common/concepts",
+              "common/cloud-overview",
+              "common/pricing"
             ]
           },
           {
