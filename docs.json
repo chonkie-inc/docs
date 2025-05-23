@@ -83,7 +83,7 @@
           {
             "group": "Getting Started",
             "pages": [
-              "typescript-sdk/getting-started/introduction", 
+              "typescript-sdk/getting-started/introduction",
               "common/concepts",
               "common/cloud-overview",
               "common/pricing"
@@ -94,7 +94,7 @@
             "pages": [
               "typescript-sdk/chunkers/overview",
               "typescript-sdk/chunkers/token-chunker",
-              "typescript-sdk/chunkers/sentence-chunker", 
+              "typescript-sdk/chunkers/sentence-chunker",
               "typescript-sdk/chunkers/recursive-chunker",
               "typescript-sdk/chunkers/code-chunker"
             ]
@@ -102,7 +102,8 @@
         ]
       },
       {
-        "tab": "Chonkie API",
+        "tab": "Chonkie Cloud",
+        "icon": "cloud",
         "openapi": "chonkie-cloud/openapi.json"
       },
       {
