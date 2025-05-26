@@ -10,6 +10,9 @@
 
 Chonkie was built with the principle of being so simple that the documentation would be minimal. However, as we grow, we need to add more documentation to help users understand the different chunking strategies available to them. So here we are!
 
+> [!WARNING]
+> These docs have been archieved and are no longer updated! The docs have been moved to the [chonkie](https://github.com/chonkie-inc/chonkie) repository in order to keep a tighter connection between the codebase and the docs. 
+
 ## Incorrect Documentation?
 
 If you find any incorrect documentation, please open an issue or submit a PR to fix it. You can:
