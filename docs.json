@@ -21,7 +21,6 @@
               "python-sdk/getting-started/installation",
               "common/concepts",
               "common/cloud-overview",
-              "common/pricing"
             ]
           },
           {
@@ -86,7 +85,6 @@
               "typescript-sdk/getting-started/introduction",
               "common/concepts",
               "common/cloud-overview",
-              "common/pricing"
             ]
           },
           {
